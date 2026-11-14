@@ -1,0 +1,835 @@
+<!doctype html>
+<html lang="de-CH">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>KI-Anonymisierer Schweiz: Daten vor ChatGPT und Co. anonymisieren</title>
+<meta name="description" content="Platzhalter statt Klarnamen, bevor Texte in ChatGPT, Copilot und Co. landen. Lokal oder auf eigenem Server, für Kanzlei, Treuhand, Praxis und Verwaltung.">
+<meta name="robots" content="index,follow,max-image-preview:large">
+<link rel="canonical" href="https://ki-anonymisierer.ch/">
+<link rel="alternate" hreflang="de-CH" href="https://ki-anonymisierer.ch/">
+<link rel="alternate" hreflang="de-DE" href="https://anonymisierer-tools.de/">
+<link rel="icon" href="img/favicon.png" type="image/png">
+<link rel="apple-touch-icon" href="img/apple-touch-icon.png">
+<meta property="og:type" content="website">
+<meta property="og:locale" content="de_CH">
+<meta property="og:title" content="KI-Anonymisierer: Die KI bekommt den Text. Nicht die Namen.">
+<meta property="og:description" content="Platzhalter statt Klarnamen, bevor ein Text in einen KI-Chat geht. Lokal auf dem Gerät oder auf dem eigenen Server.">
+<meta property="og:url" content="https://ki-anonymisierer.ch/">
+<meta property="og:image" content="https://ki-anonymisierer.ch/img/og.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Ein Dokument zwischen den Wörtern Copy und Paste">
+<meta name="theme-color" content="#000000">
+<link rel="preload" href="fonts/archivo-latin.woff2" as="font" type="font/woff2" crossorigin>
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"SoftwareApplication","name":"KI-Anonymisierer","applicationCategory":"SecurityApplication","operatingSystem":"macOS, iOS, Windows, Chrome","description":"Ersetzt Namen, Adressen und Kennungen durch Platzhalter, bevor Texte an KI-Dienste gehen. Lokal auf dem Gerät oder auf dem eigenen Server.","url":"https://ki-anonymisierer.ch/","inLanguage":"de-CH","author":{"@type":"Person","name":"Robert Meyer"},"offers":{"@type":"Offer","price":"8.00","priceCurrency":"CHF"}}
+</script>
+<style>
+@font-face{font-family:Archivo;src:url(fonts/archivo-latin.woff2) format("woff2");font-weight:100 900;font-stretch:62% 125%;font-display:swap;unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}
+@font-face{font-family:Archivo;src:url(fonts/archivo-latin-ext.woff2) format("woff2");font-weight:100 900;font-stretch:62% 125%;font-display:swap;unicode-range:U+0100-02BA,U+02BD-02C5,U+02C7-02CC,U+02CE-02D7,U+02DD-02FF,U+1E00-1E9F,U+20A0-20AB,U+20AD-20C4,U+2113}
+:root{--paper:#fff;--ink:#000;--wash:#f1f1f1;--line:#d9d9d9;--mute:#585858;--person:#b9a6ff;--datum:#7fe3b0;--adresse:#8cc8ff;--kontakt:#ffc46b;--kennung:#ff9ac2;--pad:clamp(1.125rem,4vw,3rem);--gap:clamp(4.5rem,11vw,9.5rem)}
+*,*::before,*::after{box-sizing:border-box}
+[hidden]{display:none!important}
+html{-webkit-text-size-adjust:100%;scroll-behavior:smooth;scroll-padding-top:5rem}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:Archivo,"Helvetica Neue",Helvetica,Arial,sans-serif;font-size:1.0625rem;line-height:1.55;font-stretch:100%;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+img{max-width:100%;height:auto;display:block}
+a{color:inherit;text-underline-offset:.2em;text-decoration-thickness:.08em}
+h1,h2,h3,p,ul,ol,dl,dd,figure,blockquote{margin:0}
+ul,ol{padding:0;list-style:none}
+button,input,select,textarea{font:inherit;color:inherit}
+:focus-visible{outline:3px solid #0a6cff;outline-offset:3px}
+.skip{position:absolute;left:-999rem;top:0;background:var(--ink);color:var(--paper);padding:.75rem 1rem;z-index:50}
+.skip:focus{left:0}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}
+.wrap{max-width:84rem;margin-inline:auto;padding-inline:var(--pad)}
+.sec{padding-block:var(--gap)}
+.sec-wash{background:var(--wash)}
+h1,h2{font-stretch:70%;font-weight:800;letter-spacing:-.015em;text-wrap:balance}
+h1{font-size:clamp(3.1rem,8.1vw,7.6rem);line-height:.9;font-stretch:64%}
+h2{font-size:clamp(2.2rem,5.6vw,4.6rem);line-height:.96;max-width:16ch}
+h3{font-size:1.25rem;line-height:1.25;font-weight:700}
+.lead{font-size:clamp(1.125rem,1.6vw,1.375rem);line-height:1.45;max-width:36rem}
+.body{max-width:38rem}
+.body p+p{margin-top:1em}
+.small{font-size:.9375rem;color:var(--mute);max-width:40rem}
+.btn{display:inline-flex;align-items:center;justify-content:center;min-height:3.25rem;padding:.8rem 1.5rem;border:2px solid var(--ink);background:var(--ink);color:var(--paper);font-weight:700;font-size:1.0625rem;text-decoration:none;cursor:pointer;border-radius:0;transition:background .15s,color .15s}
+.btn:hover{background:var(--paper);color:var(--ink)}
+.btn-line{background:transparent;color:var(--ink)}
+.btn-line:hover{background:var(--ink);color:var(--paper)}
+.acts{display:flex;flex-wrap:wrap;gap:.75rem;margin-top:1.75rem}
+.textlink{font-weight:700}
+
+.top{position:sticky;top:0;z-index:20;background:var(--paper);border-bottom:1px solid var(--line)}
+.top-in{display:flex;align-items:center;gap:1.5rem;min-height:4.25rem}
+.brand{display:flex;align-items:center;gap:.6rem;font-weight:800;font-stretch:85%;font-size:1.1875rem;text-decoration:none;margin-right:auto;white-space:nowrap}
+.brand img{width:1.9rem;height:1.9rem;border-radius:.4rem}
+.nav{display:none;gap:1.75rem;font-weight:600;font-size:1rem}
+.nav a{text-decoration:none}
+.nav a:hover{text-decoration:underline}
+.top .btn{min-height:2.75rem;padding:.45rem 1rem;font-size:1rem}
+
+.hero{padding-top:clamp(2.5rem,6vw,5.5rem);padding-bottom:var(--gap)}
+.hero-grid{display:grid;gap:2rem}
+.hero-sub{display:grid;gap:1.5rem}
+.hero-sub .acts{margin-top:0}
+.hero h1 span{display:block}
+
+.clip{margin-top:clamp(2.5rem,6vw,5rem);background:var(--ink);color:var(--paper)}
+.clip-head{display:flex;flex-wrap:wrap;align-items:center;gap:.75rem 1.5rem;padding:1rem clamp(1rem,3vw,2.25rem);border-bottom:1px solid #3a3a3a}
+.clip-title{font-weight:700;margin-right:auto}
+.steps{display:flex;flex-wrap:wrap;gap:.5rem}
+.step{appearance:none;background:transparent;border:1px solid #6b6b6b;color:var(--paper);padding:.5rem .9rem;min-height:2.75rem;font-weight:600;font-size:.9375rem;cursor:pointer;border-radius:0}
+.step[aria-pressed="true"]{background:var(--paper);color:var(--ink);border-color:var(--paper)}
+.step b{font-weight:800;margin-right:.35em}
+.clip-body{padding:clamp(1.5rem,4vw,3.5rem) clamp(1rem,3vw,2.25rem)}
+.doc{font-size:clamp(1.3rem,2.9vw,2.5rem);line-height:1.42;font-stretch:92%;font-weight:400;max-width:34em;white-space:pre-wrap;overflow-wrap:anywhere;min-height:6em}
+.tok{border-radius:.16em;padding:.02em 0;-webkit-box-decoration-break:clone;box-decoration-break:clone;background-image:linear-gradient(var(--paper),var(--paper));background-repeat:no-repeat;background-size:0 100%;background-position:left;transition:background-size .2s ease-in}
+.tok.cover{background-size:100% 100%;color:transparent}
+.tok.ph{padding:.02em .14em;background-color:var(--c);color:var(--ink);font-weight:600;background-position:right;background-size:0 100%;transition:background-size .22s ease-out}
+.tok.back{box-shadow:inset 0 -.14em 0 var(--c)}
+.tok[data-k="person"]{--c:var(--person)}
+.tok[data-k="datum"]{--c:var(--datum)}
+.tok[data-k="adresse"]{--c:var(--adresse)}
+.tok[data-k="kontakt"]{--c:var(--kontakt)}
+.tok[data-k="kennung"]{--c:var(--kennung)}
+.own{display:block;width:100%;min-height:9rem;margin-bottom:1.5rem;padding:1rem;background:#161616;border:1px solid #6b6b6b;color:var(--paper);font-size:1.0625rem;line-height:1.5;border-radius:0;resize:vertical}
+.own::placeholder{color:#9a9a9a}
+.clip-foot{display:flex;flex-wrap:wrap;align-items:center;gap:.75rem 1.5rem;padding:1rem clamp(1rem,3vw,2.25rem);border-top:1px solid #3a3a3a;font-size:.9375rem}
+.count{font-weight:700;margin-right:auto;min-height:1.5em}
+.legend{display:flex;flex-wrap:wrap;gap:.4rem .9rem;color:#cfcfcf}
+.legend i{display:inline-block;width:.8em;height:.8em;margin-right:.4em;background:var(--c);border-radius:.15em;vertical-align:-.05em}
+.own-btn{appearance:none;background:transparent;border:0;border-bottom:2px solid var(--paper);color:var(--paper);font-weight:700;padding:.25rem 0;cursor:pointer;min-height:2.75rem}
+.clip-note{padding:0 clamp(1rem,3vw,2.25rem) 1.1rem;color:#bdbdbd;font-size:.875rem}
+
+.two{display:grid;gap:clamp(2rem,5vw,4.5rem)}
+.who{margin-top:clamp(2.5rem,5vw,4rem);border-top:2px solid var(--ink)}
+.who li{display:grid;gap:.25rem;padding:1.1rem 0;border-bottom:1px solid var(--line)}
+.who strong{font-stretch:80%;font-weight:800;font-size:clamp(1.5rem,3vw,2.25rem);line-height:1.05}
+.who span{color:var(--mute)}
+.mods{display:flex;flex-wrap:wrap;gap:.5rem;margin-top:1.25rem}
+.mods li{border:1px solid var(--ink);padding:.3rem .7rem;font-weight:600;font-size:.9375rem}
+
+.net{margin-top:clamp(2.5rem,5vw,4rem)}
+.net svg{width:100%;height:auto;display:block}
+.net text{font-family:Archivo,Helvetica,Arial,sans-serif}
+.points{display:grid;gap:1.5rem 2.5rem;margin-top:clamp(2.5rem,5vw,4rem)}
+.points li{border-top:2px solid var(--ink);padding-top:.9rem}
+.points p{margin-top:.35rem;color:var(--mute)}
+.price{margin-top:clamp(2.5rem,5vw,4rem);display:grid;gap:1.5rem;align-items:end;border-top:2px solid var(--ink);padding-top:1.5rem}
+.price-num{font-stretch:70%;font-weight:800;font-size:clamp(3rem,8vw,6.5rem);line-height:.9;letter-spacing:-.02em}
+.price-num small{display:block;font-stretch:100%;font-weight:600;font-size:1.0625rem;line-height:1.4;letter-spacing:0;margin-top:.75rem}
+.shot{margin-top:clamp(2.5rem,5vw,4rem);border:1px solid var(--line);background:var(--paper)}
+.shot figcaption{padding:.75rem 1rem;font-size:.9375rem;color:var(--mute);border-top:1px solid var(--line)}
+
+.apps{margin-top:clamp(2.5rem,5vw,4rem);border-top:2px solid var(--ink)}
+.app{display:grid;gap:.4rem 2rem;padding:1.4rem 0;border-bottom:1px solid var(--line);align-items:baseline}
+.app h3{font-stretch:80%;font-weight:800;font-size:clamp(1.5rem,3vw,2.25rem);line-height:1.05}
+.app p{color:var(--mute);max-width:34rem}
+.app .cost{font-weight:700;white-space:nowrap}
+.app>a{font-weight:700}
+
+.pilot{display:grid;gap:clamp(2rem,5vw,4.5rem);align-items:start}
+.ticks{margin-top:1.5rem;border-top:2px solid var(--ink)}
+.ticks li{padding:.85rem 0;border-bottom:1px solid var(--line)}
+.person{display:grid;gap:1.5rem}
+.person img{width:100%;max-width:22rem;aspect-ratio:4/5;object-fit:cover;object-position:top}
+.person blockquote{font-size:clamp(1.2rem,1.7vw,1.45rem);line-height:1.35;font-stretch:92%;font-weight:500;max-width:30rem}
+.person cite{display:block;margin-top:1rem;font-style:normal;font-size:1rem;color:var(--mute)}
+.person cite b{color:var(--ink)}
+
+.faq{margin-top:clamp(2rem,4vw,3rem);border-top:2px solid var(--ink);max-width:56rem}
+.faq details{border-bottom:1px solid var(--line)}
+.faq summary{cursor:pointer;list-style:none;padding:1.15rem 2.5rem 1.15rem 0;font-weight:700;font-size:1.1875rem;position:relative}
+.faq summary::-webkit-details-marker{display:none}
+.faq summary::after{content:"+";position:absolute;right:.25rem;top:50%;transform:translateY(-50%);font-size:1.75rem;font-weight:400;line-height:1}
+.faq details[open] summary::after{content:"\2212"}
+.faq p{padding:0 0 1.25rem;max-width:44rem;color:#222}
+
+.contact{background:var(--ink);color:var(--paper)}
+.contact h2{max-width:14ch}
+.contact .lead{color:#d6d6d6}
+.form{display:grid;gap:1.1rem}
+.field{display:grid;gap:.35rem}
+.field label,.field .lab{font-weight:600;font-size:.9375rem}
+.field input,.field select,.field textarea{width:100%;min-height:3.25rem;padding:.7rem .85rem;border:1px solid #6b6b6b;background:#141414;color:var(--paper);border-radius:0}
+.field textarea{min-height:8rem;resize:vertical}
+.field select{appearance:none;background-image:linear-gradient(45deg,transparent 50%,#fff 50%),linear-gradient(135deg,#fff 50%,transparent 50%);background-position:calc(100% - 1.25rem) 50%,calc(100% - .9rem) 50%;background-size:.36rem .36rem;background-repeat:no-repeat;padding-right:2.5rem}
+.hp{position:absolute;left:-999rem;width:1px;height:1px;opacity:0}
+.contact .btn{background:var(--paper);color:var(--ink);border-color:var(--paper)}
+.contact .btn:hover{background:transparent;color:var(--paper)}
+.status{min-height:1.5em;font-weight:600}
+.status.err{color:#ffb4a8}
+.status.ok{color:var(--datum)}
+.contact .small{color:#bdbdbd}
+.direct{margin-top:2rem;display:grid;gap:.4rem;font-size:1.0625rem}
+
+.foot{padding-block:2.5rem 6.5rem;font-size:.9375rem}
+.foot-in{display:flex;flex-wrap:wrap;gap:.75rem 1.75rem;align-items:baseline}
+.foot-in p{margin-right:auto}
+
+dialog{border:0;padding:0;max-width:min(44rem,calc(100vw - 1.5rem));width:100%;max-height:calc(100dvh - 1.5rem);background:var(--paper);color:var(--ink)}
+dialog::backdrop{background:rgba(0,0,0,.72)}
+.dlg{padding:clamp(1.25rem,4vw,2.5rem);position:relative}
+.dlg h2{font-size:clamp(1.9rem,5vw,2.75rem);max-width:none;padding-right:3rem}
+.dlg .x{position:absolute;right:.75rem;top:.75rem;width:2.75rem;height:2.75rem;border:0;background:transparent;font-size:1.75rem;line-height:1;cursor:pointer}
+.dlg .field input,.dlg .field textarea{background:var(--paper);color:var(--ink);border-color:var(--ink)}
+.dlg .btn:hover{background:var(--paper);color:var(--ink)}
+dialog .status.err{color:#b00020}
+.notice{background:var(--wash);padding:1rem 1.1rem;font-size:.9375rem}
+.notice p+p{margin-top:.6em}
+.check{display:grid;grid-template-columns:1.5rem 1fr;gap:.75rem;align-items:start;font-size:.9375rem}
+.check input{width:1.35rem;height:1.35rem;margin:.15rem 0 0;accent-color:#000}
+
+#frame{max-width:min(62rem,calc(100vw - 1.5rem));height:calc(100dvh - 1.5rem)}
+#frame[open]{display:flex;flex-direction:column}
+.frame-bar{display:flex;align-items:center;gap:1rem;padding:.5rem .5rem .5rem 1.25rem;border-bottom:2px solid var(--ink)}
+.frame-bar strong{margin-right:auto;font-size:1.1875rem}
+.frame-bar a{font-size:.9375rem;font-weight:600}
+.frame-bar button{width:2.75rem;height:2.75rem;border:0;background:transparent;font-size:1.75rem;line-height:1;cursor:pointer}
+#frame iframe{flex:1;width:100%;border:0;background:var(--paper)}
+
+.dock{position:fixed;left:0;right:0;bottom:0;z-index:30;display:grid;grid-template-columns:1fr 1fr;background:var(--ink);border-top:1px solid #3a3a3a}
+.dock a{display:flex;align-items:center;justify-content:center;min-height:3.5rem;color:var(--paper);font-weight:700;text-decoration:none}
+.dock a+a{border-left:1px solid #3a3a3a}
+.dock a:first-child{background:var(--paper);color:var(--ink)}
+
+@media (min-width:56rem){
+  .nav{display:flex}
+  .dock{display:none}
+  .foot{padding-bottom:2.5rem}
+  .hero-sub{grid-template-columns:minmax(0,36rem) auto;justify-content:space-between;align-items:end;gap:3rem}
+  .two{grid-template-columns:minmax(0,5fr) minmax(0,6fr);align-items:start}
+  .who li{grid-template-columns:minmax(0,4fr) minmax(0,7fr);align-items:baseline;gap:2rem}
+  .points{grid-template-columns:repeat(4,minmax(0,1fr))}
+  .price{grid-template-columns:minmax(0,1fr) auto}
+  .price .acts{margin-top:0;justify-content:flex-end}
+  .app{grid-template-columns:minmax(0,3fr) minmax(0,5fr) minmax(0,2fr) minmax(0,2fr)}
+  .app .cost,.app>a{justify-self:end;text-align:right}
+  .pilot{grid-template-columns:minmax(0,6fr) minmax(0,5fr)}
+  .contact-grid{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,6fr);gap:clamp(2rem,5vw,4.5rem);align-items:start}
+  .form .row{display:grid;grid-template-columns:1fr 1fr;gap:1.1rem}
+}
+@media (max-width:55.99rem){
+  .contact-grid{display:grid;gap:2.5rem}
+  .form .row{display:grid;gap:1.1rem}
+  .top .btn{display:none}
+}
+@media (prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+  .tok,.tok.ph{transition:none}
+}
+</style>
+</head>
+<body>
+<a class="skip" href="#main">Zum Inhalt</a>
+
+<header class="top">
+  <div class="wrap top-in">
+    <a class="brand" href="#top"><img src="img/icon.webp" alt="" width="160" height="160">KI-Anonymisierer</a>
+    <nav class="nav" aria-label="Hauptnavigation">
+      <a href="#demo">Ausprobieren</a>
+      <a href="#organisation">Für Organisationen</a>
+      <a href="#apps">Apps</a>
+      <a href="#fragen">Fragen</a>
+      <a href="#kontakt">Kontakt</a>
+    </nav>
+    <a class="btn" href="#testzugang">Testzugang anfordern</a>
+  </div>
+</header>
+
+<main id="main">
+<section class="hero" id="top">
+  <div class="wrap hero-grid">
+    <h1><span>Die KI bekommt den Text.</span><span>Nicht die Namen.</span></h1>
+    <div class="hero-sub">
+      <p class="lead">KI-Anonymisierer ersetzt Namen, Adressen und Kennungen durch Platzhalter, bevor ein Text in ChatGPT, Copilot und Co. landet. Auf Ihrem Gerät oder auf Ihrem eigenen Server.</p>
+      <div class="acts">
+        <a class="btn" href="#testzugang">Testzugang anfordern</a>
+        <a class="btn btn-line" href="#organisation">Für Organisationen</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="wrap">
+    <div class="clip" id="demo" aria-labelledby="clipTitle">
+      <div class="clip-head">
+        <span class="clip-title" id="clipTitle">Zwischenablage, Beispiel mit erfundenen Daten</span>
+        <div class="steps" role="group" aria-label="Ansicht wählen">
+          <button class="step" type="button" data-step="1" aria-pressed="true"><b>1</b>Kopiert</button>
+          <button class="step" type="button" data-step="2" aria-pressed="false"><b>2</b>An die KI</button>
+          <button class="step" type="button" data-step="3" aria-pressed="false"><b>3</b>Antwort zurückgeführt</button>
+        </div>
+      </div>
+      <div class="clip-body">
+        <label class="hp" for="own">Eigener Text</label>
+        <textarea class="own" id="own" hidden placeholder="Text hier einfügen, zum Beispiel einen Brief mit erfundenen Namen."></textarea>
+        <p class="doc" id="doc">Sehr geehrte Frau Seraina Caflisch
+
+Wir bestätigen den Termin vom 14.01.2027 zu Dossier 2026-0417. Bitte senden Sie die Unterlagen an Bahnhofstrasse 12, 8001 Zürich oder an s.caflisch@kanzlei-muster.example. Rückfragen unter 044 000 12 34.
+
+Freundliche Grüsse
+Reto Aebischer</p>
+      </div>
+      <div class="clip-foot">
+        <span class="count" id="count" role="status"></span>
+        <span class="legend" aria-hidden="true">
+          <span><i style="--c:var(--person)"></i>Person</span>
+          <span><i style="--c:var(--datum)"></i>Datum</span>
+          <span><i style="--c:var(--adresse)"></i>Adresse</span>
+          <span><i style="--c:var(--kontakt)"></i>Kontakt</span>
+          <span><i style="--c:var(--kennung)"></i>Kennung</span>
+        </span>
+        <button class="own-btn" type="button" id="ownBtn">Eigenen Text prüfen</button>
+      </div>
+      <p class="clip-note">Vereinfachte Vorschau: Sie läuft in Ihrem Browser, nichts wird übertragen. Die Apps und der Server erkennen mehr und genauer.</p>
+    </div>
+  </div>
+</section>
+
+<section class="sec sec-wash" id="geheimnis">
+  <div class="wrap">
+    <div class="two">
+      <h2>Zwischen Kopieren und Einfügen liegt ein Sekundenbruchteil.</h2>
+      <div class="body">
+        <p class="lead">In Schweizer Kanzleien, Treuhandbüros, Praxen und Verwaltungen stehen in fast jedem Text Angaben, die dem Berufs- oder Amtsgeheimnis und dem Datenschutzgesetz unterstehen.</p>
+        <p>Niemand kopiert sie aus bösem Willen in einen KI-Chat. Es passiert nebenbei, weil 14 weitere Geschäfte warten. KI-Anonymisierer setzt genau an dieser Stelle an: Die Angaben werden ersetzt, bevor der Text das Haus verlässt.</p>
+      </div>
+    </div>
+    <ul class="who">
+      <li><strong>Kanzlei</strong><span>Klientinnen und Klienten, Gegenparteien, Dossiernummern</span></li>
+      <li><strong>Treuhand</strong><span>Lohnlisten, Steuerunterlagen, Bankverbindungen</span></li>
+      <li><strong>Praxis</strong><span>Patientennamen, Geburtsdaten, Diagnosen</span></li>
+      <li><strong>Verwaltung</strong><span>Gesuchstellende, Adressen, Geschäftsnummern</span></li>
+    </ul>
+    <p class="small" style="margin-top:2rem">Erkennungsmodule des Servers, einzeln schaltbar:</p>
+    <ul class="mods">
+      <li>Namen</li><li>Adressen</li><li>PLZ und Ort</li><li>E-Mail</li><li>Telefon</li><li>IBAN</li><li>Aktenzeichen</li><li>Datum</li><li>Firmen</li><li>Medizin</li><li>Eigene Begriffe</li>
+    </ul>
+  </div>
+</section>
+
+<section class="sec" id="organisation">
+  <div class="wrap">
+    <div class="two">
+      <h2>200 Arbeitsplätze brauchen keine 200 KI-Installationen.</h2>
+      <div class="body">
+        <p class="lead">KI-Anonymisierer Server bündelt die Erkennung in einem Docker-Dienst, den Sie selbst betreiben. Windows-Client, Chrome-Erweiterung und eigene Anwendungen nutzen ihn über eine gemeinsame Schnittstelle.</p>
+        <p>Im Servermodus wird der Text zur Analyse an Ihren Server übertragen. Laut Dokumentation speichert der Server keine Klartexte.</p>
+      </div>
+    </div>
+
+    <figure class="net">
+      <svg viewBox="0 0 960 400" role="img" aria-labelledby="netT netD">
+        <title id="netT">So bleibt die Erkennung im eigenen Netz</title>
+        <desc id="netD">Viele Arbeitsplätze senden kopierte Texte an einen Server im eigenen Netz. Nach aussen an den KI-Dienst gehen nur Platzhalter.</desc>
+        <rect x="6" y="46" width="640" height="340" fill="none" stroke="#000" stroke-width="2" stroke-dasharray="2 9" stroke-linecap="square"/>
+        <text x="22" y="34" font-size="20" font-weight="700">Ihr Netz</text>
+        <g fill="#000">
+          <g id="seats"></g>
+        </g>
+        <text x="40" y="364" font-size="17" fill="#585858">Arbeitsplätze</text>
+        <g fill="none" stroke="#000" stroke-width="1.5">
+          <path d="M252 122 C330 122 360 216 440 216"/>
+          <path d="M252 216 L440 216"/>
+          <path d="M252 310 C330 310 360 216 440 216"/>
+        </g>
+        <rect x="440" y="166" width="160" height="100" fill="#000"/>
+        <text x="520" y="212" font-size="20" font-weight="800" fill="#fff" text-anchor="middle">Server</text>
+        <text x="520" y="238" font-size="15" fill="#fff" text-anchor="middle">Regeln und Modell</text>
+        <text x="440" y="296" font-size="17" fill="#585858">zentral gepflegt</text>
+        <path d="M252 84 L790 84" fill="none" stroke="#000" stroke-width="1.5"/>
+        <path d="M790 84 l-12 -7 v14 z" fill="#000"/>
+        <rect x="662" y="66" width="104" height="36" rx="5" fill="#b9a6ff"/>
+        <text x="714" y="90" font-size="17" font-weight="700" text-anchor="middle">[Person 1]</text>
+        <rect x="796" y="46" width="158" height="76" fill="none" stroke="#000" stroke-width="2"/>
+        <text x="875" y="91" font-size="20" font-weight="800" text-anchor="middle">KI-Dienst</text>
+        <text x="796" y="150" font-size="17" fill="#585858">erhält nur Platzhalter</text>
+      </svg>
+    </figure>
+
+    <ul class="points">
+      <li><h3>Selbst betrieben</h3><p>Der Server läuft in Ihrem Netz, nicht in einer fremden Cloud.</p></li>
+      <li><h3>Zustimmung am Arbeitsplatz</h3><p>Der Windows-Client fragt vor der Übertragung und vor dem Ersetzen.</p></li>
+      <li><h3>Zentral gepflegt</h3><p>Regeln, Modell und eigene Begriffe an einer Stelle, keine Modelle pro PC.</p></li>
+      <li><h3>Offene Schnittstelle</h3><p>Die API liefert Fundstellen mit Kategorie und Position, auch für eigene Anwendungen.</p></li>
+    </ul>
+
+    <div class="price">
+      <p class="price-num">EUR 990.–<small>Server-Lizenz pro Jahr für 25 Nutzer. 30 Tage kostenlos testen. Einzelplatz und Windows-Client sind kostenlos, weitere Staffeln auf Anfrage.</small></p>
+      <div class="acts">
+        <a class="btn" href="#testzugang">Testzugang anfordern</a>
+        <a class="btn btn-line" href="#kontakt" data-topic="Offerte für unsere Organisation">Offerte anfragen</a>
+      </div>
+    </div>
+    <p class="small" style="margin-top:1.25rem">Es gilt die <a href="eula-server.html" data-frame="EULA Server">Server-EULA</a>. Installation und Dokumentation: <a href="https://github.com/rmdroid/anonymisierer-server" target="_blank" rel="noopener noreferrer">Server auf GitHub</a>.</p>
+
+    <figure class="shot">
+      <img src="img/server-module.webp" width="1600" height="900" loading="lazy" alt="Oberfläche des KI-Anonymisierer Servers: Erkennungsmodule wie Namen, Adressen, IBAN, Aktenzeichen und Medizin lassen sich einzeln ein- und ausschalten.">
+      <figcaption>Die Server-Oberfläche: Erkennungsmodule gelten für alle verbundenen Arbeitsplätze.</figcaption>
+    </figure>
+  </div>
+</section>
+
+<section class="sec sec-wash" id="apps">
+  <div class="wrap">
+    <div class="two">
+      <h2>Für den einzelnen Arbeitsplatz.</h2>
+      <div class="body">
+        <p class="lead">Ohne Server, einmal kaufen, kein Abo. Die Erkennung läuft auf Ihrem Gerät.</p>
+        <p>Die Apps für Mac und Windows führen die echten Angaben nach der Antwort der KI wieder zurück.</p>
+      </div>
+    </div>
+    <div class="apps">
+      <article class="app">
+        <h3>Mac</h3>
+        <p>Menubar-App mit globalem Shortcut. Text und Bilder anonymisieren, Namen nach der Antwort zurückführen.</p>
+        <span class="cost">CHF 8.– einmalig</span>
+        <a href="https://apps.apple.com/ch/app/ki-anonymisierer/id6760411603?mt=12" target="_blank" rel="noopener noreferrer">Im Mac App Store</a>
+      </article>
+      <article class="app">
+        <h3>Mac, 10 Lizenzen</h3>
+        <p>Teamlizenz für die Mac-App, direkt ausserhalb des App Store. Es gilt die <a href="eula-mac.html" data-frame="EULA Mac">EULA Mac</a>. Ab 25 Lizenzen <a href="#kontakt" data-topic="Lizenzen für mehrere Einzelplätze">auf Anfrage</a>.</p>
+        <span class="cost">EUR 79.90 einmalig</span>
+        <a href="https://ki-fachbuecher.lemonsqueezy.com/checkout/buy/f69f289c-85a2-440d-85bd-d532d741baf9" target="_blank" rel="noopener noreferrer">Teamlizenz kaufen</a>
+      </article>
+      <article class="app">
+        <h3>iPhone und iPad</h3>
+        <p>Texte, Fotos und Screenshots vor dem Teilen bereinigen, auch direkt aus dem Teilen-Menü.</p>
+        <span class="cost">CHF 8.– einmalig</span>
+        <a href="https://apps.apple.com/ch/app/anonymisierer/id6769850811" target="_blank" rel="noopener noreferrer">Im App Store</a>
+      </article>
+      <article class="app">
+        <h3>Windows</h3>
+        <p>Tray-App mit Strg + Umschalt + A. Regeln, integrierte Namenserkennung und optional lokale KI über Ollama oder LM Studio.</p>
+        <span class="cost">CHF 15.– einmalig</span>
+        <a href="https://apps.microsoft.com/detail/9N229VW00Z01?hl=de-CH&amp;gl=CH" target="_blank" rel="noopener noreferrer">Im Microsoft Store</a>
+      </article>
+      <article class="app">
+        <h3>Chrome</h3>
+        <p>Paste Guard prüft Text in unterstützten KI-Chats vor dem Einfügen und kann Ihren eigenen Server nutzen.</p>
+        <span class="cost">Kostenlos</span>
+        <a href="https://chromewebstore.google.com/detail/jaoallgfipnfnibbnjeflecgfmbhefoa" target="_blank" rel="noopener noreferrer">Im Chrome Web Store</a>
+      </article>
+      <article class="app">
+        <h3>Excel</h3>
+        <p>Die Lohnliste darf zur KI, die Namen nicht. Spalten erkennen, pro Spalte entscheiden, mit Protokoll und Rückweg, lokal in Docker.</p>
+        <span class="cost">EUR 99.– je Arbeitsplatz</span>
+        <a href="#kontakt" data-topic="Excel-Anonymisierer: 7 Tage testen">7 Tage testen</a>
+      </article>
+    </div>
+    <p class="small" style="margin-top:1.25rem">Franken-Preise laut Schweizer App Store und Microsoft Store, Stand November 2026.</p>
+  </div>
+</section>
+
+<section class="sec" id="pilot">
+  <div class="wrap pilot">
+    <div>
+      <h2>Pilot mit Schulung: 30 Tage, bis 10 Arbeitsplätze.</h2>
+      <ul class="ticks">
+        <li>KI-Anonymisierer Server mit Windows-Client und Chrome-Anbindung</li>
+        <li>Online-Schulung «Copy &amp; Paste sicher» mit Robert Meyer</li>
+        <li>Gemeinsame Einrichtung, danach wissen Sie, wie gross Ihr Server sein muss</li>
+      </ul>
+      <div class="acts">
+        <a class="btn" href="#kontakt" data-topic="Pilot für unsere Organisation">Pilot anfragen</a>
+      </div>
+    </div>
+    <figure class="person">
+      <img src="img/robert.webp" width="820" height="1230" loading="lazy" alt="Robert Meyer bei einem Vortrag">
+      <blockquote>«Als KI-Dozent sehe ich jeden Tag, wie Kundendaten ganz nebenbei in KI-Chats wandern. Nicht aus Böswilligkeit, sondern im Sekundenbruchteil zwischen Kopieren und Einfügen.»
+        <cite><b>Robert Meyer</b><br>KI-Berater, Fachautor und Dozent</cite>
+      </blockquote>
+    </figure>
+  </div>
+</section>
+
+<section class="sec sec-wash" id="fragen">
+  <div class="wrap">
+    <h2>Ehrliche Antworten.</h2>
+    <div class="faq">
+      <details><summary>Verlässt mein Text den Rechner?</summary><p>Bei den Apps für Mac, iPhone, iPad und Windows sowie in der Chrome-Erweiterung ohne Serveranbindung nicht: Die Erkennung läuft auf Ihrem Gerät. Im Servermodus wird der Text zur Analyse an Ihren selbst betriebenen Server übertragen.</p></details>
+      <details><summary>Erkennt die Software alle sensiblen Angaben?</summary><p>Keine automatische Erkennung ist vollständig. KI-Anonymisierer unterstützt die Prüfung, die Kontrolle vor der Weitergabe bleibt entscheidend.</p></details>
+      <details><summary>Ist die Nutzung damit automatisch datenschutzkonform?</summary><p>Das kann keine Software pauschal zusagen. KI-Anonymisierer reduziert Personendaten, bevor Texte weitergegeben werden. Die rechtliche Beurteilung Ihres Einsatzes bleibt bei Ihnen und Ihrer Datenschutzberatung.</p></details>
+      <details><summary>Brauchen wir für mehrere Arbeitsplätze einen Server?</summary><p>Nicht zwingend. Jeder Arbeitsplatz kann eine eigene App nutzen. Der Server lohnt sich, wenn Sie Erkennung und eigene Begriffe zentral pflegen möchten.</p></details>
+      <details><summary>Wie gross muss der Server sein?</summary><p>Das hängt von Textmengen, Antwortzeiten und gleichzeitigen Anfragen ab. Im Pilot ermitteln wir gemeinsam, was Ihr Einsatz braucht.</p></details>
+      <details><summary>Können wir den Server vorher testen?</summary><p>Ja, 30 Tage kostenlos. Mit dem Testzugang prüfen Sie die Erkennung an eigenen Beispieltexten, ohne Installation, über die Chrome-Erweiterung und unseren Testserver. Bitte nur erfundene Daten verwenden: Für den Testzugang besteht kein Vertrag über die Auftragsbearbeitung.</p></details>
+      <details><summary>In welcher Währung wird abgerechnet?</summary><p>Die Apps kaufen Sie im Schweizer App Store oder Microsoft Store in Franken. Die Teamlizenz für den Mac, die Server-Lizenz und der Excel-Anonymisierer werden derzeit in Euro offeriert.</p></details>
+    </div>
+  </div>
+</section>
+
+<section class="sec contact" id="kontakt">
+  <div class="wrap contact-grid">
+    <div>
+      <h2>Schildern Sie kurz Ihren Einsatz.</h2>
+      <p class="lead" style="margin-top:1.5rem">Kanzlei, Treuhand, Praxis oder Verwaltung: Sie erhalten eine persönliche Antwort von Robert Meyer.</p>
+      <p class="direct"><span>E-Mail: <a href="mailto:rm@kostenmanager.net">rm@kostenmanager.net</a></span><span>Telefon: <a id="callLink" href="#kontakt">auf Anfrage</a></span></p>
+    </div>
+    <form class="form" id="contactForm" novalidate>
+      <div class="row">
+        <div class="field"><label for="cName">Name</label><input id="cName" name="name" autocomplete="name"></div>
+        <div class="field"><label for="cMail">E-Mail (erforderlich)</label><input id="cMail" name="email" type="email" autocomplete="email" required></div>
+      </div>
+      <div class="row">
+        <div class="field"><label for="cOrg">Organisation</label><input id="cOrg" name="org" autocomplete="organization"></div>
+        <div class="field"><label for="topic">Anliegen</label>
+          <select id="topic" name="topic">
+            <option>Allgemeine Frage</option>
+            <option>Pilot für unsere Organisation</option>
+            <option>Offerte für unsere Organisation</option>
+            <option>Lizenzen für mehrere Einzelplätze</option>
+            <option>Excel-Anonymisierer: 7 Tage testen</option>
+          </select>
+        </div>
+      </div>
+      <div class="field"><label for="cMsg">Nachricht</label><textarea id="cMsg" name="message" placeholder="Zum Beispiel: 40 Arbeitsplätze, Windows und Chrome, eigener Server vorhanden"></textarea></div>
+      <div class="hp" aria-hidden="true"><label for="cWeb">Website</label><input id="cWeb" name="website" tabindex="-1" autocomplete="off"></div>
+      <p class="small">Ihre Angaben werden zur Bearbeitung Ihrer Anfrage an Robert Meyer übermittelt. <a href="datenschutz.html" data-frame="Datenschutz">Datenschutz</a></p>
+      <div><button class="btn" type="submit" id="sendBtn">Anfrage senden</button></div>
+      <p class="status" id="formStatus" role="status"></p>
+    </form>
+  </div>
+</section>
+</main>
+
+<footer class="foot">
+  <div class="wrap foot-in">
+    <p>© 2026 Robert Meyer, KI-Anonymisierer</p>
+    <a href="impressum.html" data-frame="Impressum">Impressum</a>
+    <a href="datenschutz.html" data-frame="Datenschutz">Datenschutz</a>
+    <a href="barrierefreiheit.html" data-frame="Barrierefreiheit">Barrierefreiheit</a>
+    <a href="eula-server.html" data-frame="EULA Server">EULA Server</a>
+    <a href="eula-mac.html" data-frame="EULA Mac">EULA Mac</a>
+    <a href="https://anonymisierer-tools.de/" target="_blank" rel="noopener noreferrer" hreflang="de-DE">Seite für Deutschland</a>
+    <a href="https://www.linkedin.com/in/robert-meyer-666b39315" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+    <a href="https://youtube.com/@rmkipraxis" target="_blank" rel="noopener noreferrer">YouTube</a>
+  </div>
+</footer>
+
+<nav class="dock" aria-label="Schnellzugriff">
+  <a href="#testzugang">Testzugang</a>
+  <a href="#kontakt">Kontakt</a>
+</nav>
+
+<dialog id="tz" aria-labelledby="tzTitle">
+  <div class="dlg">
+    <button class="x" type="button" id="tzClose" aria-label="Schliessen">×</button>
+    <h2 id="tzTitle">Testzugang anfordern</h2>
+    <form class="form" id="tzForm" style="margin-top:1.25rem" novalidate>
+      <p>Prüfen Sie die Erkennung an eigenen Beispieltexten, ohne Installation, direkt im Browser. Sie erhalten einen persönlichen Zugangsschlüssel für unseren Testserver. Der Zugang ist 30 Tage kostenlos und unverbindlich.</p>
+      <div class="row">
+        <div class="field"><label for="tName">Name (erforderlich)</label><input id="tName" name="name" autocomplete="name" required></div>
+        <div class="field"><label for="tMail">E-Mail (erforderlich)</label><input id="tMail" name="email" type="email" autocomplete="email" required></div>
+      </div>
+      <div class="row">
+        <div class="field"><label for="tOrg">Firma oder Behörde (erforderlich)</label><input id="tOrg" name="org" autocomplete="organization" required></div>
+        <div class="field"><label for="tTel">Telefon (optional)</label><input id="tTel" name="phone" type="tel" autocomplete="tel"></div>
+      </div>
+      <div class="field"><label for="tInt">Woran sind Sie besonders interessiert? (optional)</label><textarea id="tInt" name="interest" placeholder="Wir prüfen, ob Dossiernummern und Klientennamen zuverlässig erkannt werden."></textarea></div>
+      <div class="notice">
+        <p><strong>Bitte vorab lesen.</strong> Dieser Testserver wird von uns betrieben. Im späteren Einsatz steht der Server in Ihrem Haus, und keine Daten verlassen Ihr Netzwerk.</p>
+        <p>Für den Test speichern wir keine Texte und keine Zuordnungen zu echten Namen. Protokolliert werden ausschliesslich Kennzahlen, also Anzahl der Funde, Textlänge und Verarbeitungsdauer.</p>
+        <p>Für diesen Testzugang schliessen wir keinen Vertrag über die Auftragsbearbeitung. Er ist deshalb nicht geeignet, um echte Personendaten zu bearbeiten. Erfundene Namen und Adressen genügen für den Test vollkommen.</p>
+      </div>
+      <label class="check"><input type="checkbox" name="c1" required><span>Ich gebe keine echten Personendaten ein. Für den Test verwende ich erfundene oder unkenntlich gemachte Beispieltexte.</span></label>
+      <label class="check"><input type="checkbox" name="c2" required><span>Mir ist bekannt, dass für diesen Testzugang kein Vertrag über die Auftragsbearbeitung besteht und ich für die eingegebenen Inhalte selbst verantwortlich bin.</span></label>
+      <label class="check"><input type="checkbox" name="c3" required><span>Ich habe die <a href="datenschutz.html" data-frame="Datenschutz">Datenschutzerklärung</a> gelesen und willige in die Bearbeitung meiner Kontaktdaten zur Beantwortung dieser Anfrage ein.</span></label>
+      <div class="hp" aria-hidden="true"><label for="tWeb">Website</label><input id="tWeb" name="website" tabindex="-1" autocomplete="off"></div>
+      <div><button class="btn" type="submit" id="tzSend">Testzugang anfordern</button></div>
+      <p class="status" id="tzStatus" role="status"></p>
+      <p class="small">Sie erhalten die Zugangsdaten in der Regel innerhalb eines Werktags.</p>
+    </form>
+    <div id="tzDone" hidden style="margin-top:1.25rem">
+      <p class="lead">Vielen Dank. Wir senden Ihnen die Zugangsdaten und eine kurze Einrichtungsanleitung per E-Mail, in der Regel innerhalb eines Werktags.</p>
+      <p style="margin-top:1rem">Bis dahin können Sie die Chrome-Erweiterung bereits installieren. Sie arbeitet auch ohne Testserver und ist dauerhaft kostenlos.</p>
+      <div class="acts">
+        <a class="btn" href="https://chromewebstore.google.com/detail/jaoallgfipnfnibbnjeflecgfmbhefoa" target="_blank" rel="noopener noreferrer">Chrome-Erweiterung installieren</a>
+        <a class="btn btn-line" href="https://apps.microsoft.com/detail/9P522RP6RLBD" target="_blank" rel="noopener noreferrer">Windows-Client installieren</a>
+      </div>
+    </div>
+  </div>
+</dialog>
+
+<dialog id="frame" aria-labelledby="frameTitle">
+  <div class="frame-bar">
+    <strong id="frameTitle"></strong>
+    <a id="frameTab" href="#" target="_blank" rel="noopener">In neuem Tab öffnen</a>
+    <button type="button" id="frameClose" aria-label="Schliessen">×</button>
+  </div>
+  <iframe id="frameView" title="" src="about:blank"></iframe>
+</dialog>
+
+<script>
+(() => {
+  const $ = id => document.getElementById(id);
+  const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const esc = s => s.replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+
+  const SAMPLE = 'Sehr geehrte Frau Seraina Caflisch\n\nWir bestätigen den Termin vom 14.01.2027 zu Dossier 2026-0417. Bitte senden Sie die Unterlagen an Bahnhofstrasse 12, 8001 Zürich oder an s.caflisch@kanzlei-muster.example. Rückfragen unter 044 000 12 34.\n\nFreundliche Grüsse\nReto Aebischer';
+  const ANSWER = 'Entwurf der KI:\n\nSehr geehrte Frau [Person 1]\n\nBesten Dank für Ihre Nachricht. Den Termin vom [Datum 1] zu Dossier [Kennung 1] bestätigen wir gern. Die Unterlagen erreichen uns an [Adresse 1].\n\nFreundliche Grüsse\n[Person 2]';
+
+  const LABEL = { person: 'Person', datum: 'Datum', adresse: 'Adresse', kontakt: 'Kontakt', kennung: 'Kennung' };
+  const NAME = '[A-ZÄÖÜ][a-zäöüéèàç]+(?:[- ][A-ZÄÖÜ][a-zäöüéèàç]+){0,2}';
+  const RULES = [
+    { k: 'kontakt', l: 'E-Mail', re: /[\w.+-]+@[\w-]+(?:\.[\w-]+)+/g },
+    { k: 'kennung', l: 'IBAN', re: /\b[A-Z]{2}\d{2}(?: ?[A-Z0-9]{4}){3,7}(?: ?[A-Z0-9]{1,4})?\b/g },
+    { k: 'datum', l: 'Datum', re: /\b\d{1,2}\.\s?(?:\d{1,2}\.|(?:Januar|Februar|März|April|Mai|Juni|Juli|August|September|Oktober|November|Dezember))\s?\d{2,4}\b/g },
+    { k: 'kennung', l: 'Kennung', g: 1, re: /\b(?:Az\.?|Aktenzeichen|Dossier(?:-Nr\.?)?|Geschäfts-Nr\.?|Geschäftsnummer|Ref\.?)\s*:?\s*([A-Z0-9][\w./-]{2,}[A-Za-z0-9])/g },
+    { k: 'adresse', l: 'Adresse', re: /\b[A-ZÄÖÜ][a-zäöüé]+(?:strasse|straße|gasse|weg|platz|allee|rain|quai|ring)\s\d+[a-z]?(?:,\s*\d{4,5}\s[A-ZÄÖÜ][\wäöüé.-]+)?/g },
+    { k: 'kontakt', l: 'Telefon', re: /(?:\+|\b00)\d{2}[\s\d/().-]{7,16}\d|\b0\d{1,4}[\s/.-]?\d{2,4}(?:[\s.-]?\d{2,4}){1,3}\b/g },
+    { k: 'person', l: 'Person', g: 1, re: new RegExp('\\b(?:Frau|Herrn|Herr|Dr\\.|Prof\\.)\\s+(?:Dr\\.\\s+|Prof\\.\\s+)?(' + NAME + ')', 'g') },
+    { k: 'person', l: 'Person', g: 1, re: new RegExp('(?:Grüsse|Grüße|Gruss|gez\\.)[,\\s]+(' + NAME + ')', 'g') }
+  ];
+
+  const detect = text => {
+    const hits = [];
+    const free = (a, b) => hits.every(h => b <= h.a || a >= h.b);
+    RULES.forEach(r => {
+      r.re.lastIndex = 0;
+      let m;
+      while ((m = r.re.exec(text))) {
+        const val = r.g ? m[r.g] : m[0];
+        const a = r.g ? m.index + m[0].lastIndexOf(val) : m.index;
+        const b = a + val.length;
+        if (val.trim() && free(a, b)) hits.push({ a, b, k: r.k, l: r.l, o: val });
+        if (m.index === r.re.lastIndex) r.re.lastIndex++;
+      }
+    });
+    hits.filter(h => h.l === 'Person').map(h => h.o).filter((v, i, arr) => arr.indexOf(v) === i).forEach(name => {
+      let i = -1;
+      while ((i = text.indexOf(name, i + 1)) > -1) if (free(i, i + name.length)) hits.push({ a: i, b: i + name.length, k: 'person', l: 'Person', o: name });
+    });
+    hits.sort((x, y) => x.a - y.a);
+    const seen = {}, n = {};
+    hits.forEach(h => {
+      const key = h.l + '|' + h.o;
+      if (!seen[key]) { n[h.l] = (n[h.l] || 0) + 1; seen[key] = '[' + h.l + ' ' + n[h.l] + ']'; }
+      h.p = seen[key];
+    });
+    return hits;
+  };
+
+  const doc = $('doc'), count = $('count'), own = $('own'), ownBtn = $('ownBtn');
+  const steps = [...document.querySelectorAll('.step')];
+  let step = 1, text = SAMPLE, hits = detect(SAMPLE), custom = false, timers = [], touched = false;
+
+  const clearTimers = () => { timers.forEach(clearTimeout); timers = []; };
+  const later = (fn, ms) => timers.push(setTimeout(fn, ms));
+
+  const html = (src, list, mode) => {
+    let out = '', pos = 0;
+    list.forEach((h, i) => {
+      out += esc(src.slice(pos, h.a));
+      const shown = mode === 'ph' ? h.p : h.o;
+      out += '<span class="tok' + (mode === 'ph' ? ' ph' : mode === 'back' ? ' back' : '') + '" data-k="' + h.k + '" data-i="' + i + '">' + esc(shown) + '</span>';
+      pos = h.b;
+    });
+    return out + esc(src.slice(pos));
+  };
+
+  const answerHits = () => {
+    const map = {};
+    hits.forEach(h => { map[h.p] = h; });
+    const list = [], re = /\[[^\]]+ \d+\]/g;
+    let m;
+    while ((m = re.exec(ANSWER))) {
+      const h = map[m[0]];
+      if (h) list.push({ a: m.index, b: m.index + m[0].length, k: h.k, p: m[0], o: h.o });
+    }
+    return list;
+  };
+
+  const say = () => {
+    const uniq = new Set(hits.map(h => h.p)).size;
+    if (!hits.length) count.textContent = custom ? 'Keine Angaben erkannt' : '';
+    else if (step === 1) count.textContent = 'Kopiert, noch mit Klarnamen';
+    else if (step === 2) count.textContent = uniq === 1 ? '1 Angabe ersetzt' : uniq + ' Angaben ersetzt';
+    else count.textContent = 'Platzhalter lokal durch die echten Angaben ersetzt';
+  };
+
+  const flip = (from, to, cls) => {
+    const toks = [...doc.querySelectorAll('.tok')];
+    toks.forEach((el, i) => {
+      later(() => el.classList.add('cover'), i * 110);
+      later(() => {
+        const h = from[+el.dataset.i];
+        el.textContent = to === 'ph' ? h.p : h.o;
+        el.className = 'tok ' + cls;
+      }, i * 110 + 210);
+    });
+  };
+
+  const show = (next, animate) => {
+    clearTimers();
+    const prev = step;
+    step = next;
+    steps.forEach(b => b.setAttribute('aria-pressed', String(+b.dataset.step === step)));
+    say();
+    const move = animate && !reduced;
+    if (step === 1) {
+      if (move && prev === 2) { doc.innerHTML = html(text, hits, 'ph'); later(() => flip(hits, 'o', ''), 30); }
+      else doc.innerHTML = html(text, hits, 'o');
+    } else if (step === 2) {
+      if (move && prev !== 2) { doc.innerHTML = html(text, hits, 'o'); later(() => flip(hits, 'ph', 'ph'), 30); }
+      else doc.innerHTML = html(text, hits, 'ph');
+    } else {
+      const list = answerHits();
+      if (move) { doc.innerHTML = html(ANSWER, list, 'ph'); later(() => flip(list, 'o', 'back'), 500); }
+      else doc.innerHTML = html(ANSWER, list, 'back');
+    }
+  };
+
+  steps.forEach(b => b.addEventListener('click', () => { touched = true; show(+b.dataset.step, true); }));
+
+  ownBtn.addEventListener('click', () => {
+    touched = true;
+    custom = !custom;
+    own.hidden = !custom;
+    steps[2].hidden = custom;
+    ownBtn.textContent = custom ? 'Zurück zum Beispiel' : 'Eigenen Text prüfen';
+    text = custom ? own.value : SAMPLE;
+    hits = detect(text);
+    show(custom ? 2 : 1, false);
+    if (custom) own.focus(); else later(() => show(2, true), 400);
+  });
+  own.addEventListener('input', () => { text = own.value; hits = detect(text); show(step === 3 ? 2 : step, false); });
+
+  show(1, false);
+  if (reduced) show(2, false);
+  else later(() => { if (!touched) show(2, true); }, 1100);
+
+  const seats = $('seats');
+  let cells = '';
+  for (let r = 0; r < 8; r++) for (let c = 0; c < 7; c++) cells += '<rect x="' + (40 + c * 30) + '" y="' + (84 + r * 32) + '" width="18" height="18"/>';
+  seats.innerHTML = cells;
+
+  const phone = ['+49', '162', '4194', '748'];
+  const call = $('callLink');
+  call.href = 'tel:' + phone.join('');
+  call.textContent = phone.join(' ');
+
+  const frame = $('frame'), frameView = $('frameView'), frameTitle = $('frameTitle'), frameTab = $('frameTab');
+  let frameReturn = null;
+  document.addEventListener('click', e => {
+    const a = e.target.closest('a[data-frame]');
+    if (!a || e.metaKey || e.ctrlKey || e.shiftKey || e.button === 1) return;
+    e.preventDefault();
+    frameReturn = a;
+    frameTitle.textContent = a.dataset.frame;
+    frameView.title = a.dataset.frame;
+    frameView.src = a.getAttribute('href');
+    frameTab.href = a.getAttribute('href');
+    frame.showModal();
+    $('frameClose').focus();
+  });
+  $('frameClose').addEventListener('click', () => frame.close());
+  frame.addEventListener('click', e => { if (e.target === frame) frame.close(); });
+  frame.addEventListener('close', () => { frameView.src = 'about:blank'; if (frameReturn && frameReturn.focus) frameReturn.focus(); });
+
+  document.querySelectorAll('a[target="_blank"]').forEach(a => {
+    const hint = document.createElement('span');
+    hint.className = 'sr';
+    hint.textContent = ' (öffnet in neuem Tab)';
+    a.appendChild(hint);
+  });
+
+  const topic = $('topic');
+  document.querySelectorAll('[data-topic]').forEach(a => a.addEventListener('click', () => { topic.value = a.dataset.topic; }));
+
+  const endpoint = 'https://n8n.top-beraternetzwerk.de/webhook/termine';
+  const pageUrl = () => /^https?:$/.test(location.protocol) ? location.origin + location.pathname : 'https://ki-anonymisierer.ch/';
+  const FAILED = 'Wir haben keine Versandbestätigung erhalten. Ihre Eingaben bleiben erhalten. Bitte versuchen Sie es später erneut oder schreiben Sie an rm@kostenmanager.net.';
+  const post = async payload => {
+    const ctrl = new AbortController();
+    const timer = setTimeout(() => ctrl.abort(), 15000);
+    try {
+      const res = await fetch(endpoint, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload), signal: ctrl.signal });
+      if (!res.ok) throw new Error('request_failed');
+    } finally {
+      clearTimeout(timer);
+    }
+  };
+
+  const form = $('contactForm'), sendBtn = $('sendBtn'), formStatus = $('formStatus');
+  form.addEventListener('submit', async e => {
+    e.preventDefault();
+    if (sendBtn.disabled || !form.reportValidity()) return;
+    const el = form.elements;
+    if (el.website.value) return;
+    const email = el.email.value.trim(), name = el.name.value.trim() || email, org = el.org.value.trim(), msg = el.message.value.trim(), subject = topic.value, page = pageUrl();
+    const interest = 'Anfrage KI-Anonymisierer Schweiz';
+    const payload = {
+      name, email,
+      message: interest + '\nName: ' + name + '\nE-Mail: ' + email + '\nOrganisation: ' + (org || '-') + '\nAnliegen: ' + subject + '\nNachricht: ' + (msg || '-') + '\nQuelle: ki-anonymisierer.ch\nSeite: ' + page,
+      source: 'ki-anonymisierer-landingpage-request', page, interest,
+      platform: subject + (org ? ' - ' + org : '') + (msg ? ' - ' + msg : '')
+    };
+    sendBtn.disabled = true;
+    formStatus.className = 'status';
+    formStatus.textContent = 'Wird übermittelt …';
+    try {
+      await post(payload);
+      form.reset();
+      formStatus.className = 'status ok';
+      formStatus.textContent = 'Vielen Dank. Ihre Anfrage wurde übermittelt.';
+    } catch (err) {
+      formStatus.className = 'status err';
+      formStatus.textContent = FAILED;
+    } finally {
+      sendBtn.disabled = false;
+    }
+  });
+
+  const tz = $('tz'), tzForm = $('tzForm'), tzSend = $('tzSend'), tzStatus = $('tzStatus'), tzDone = $('tzDone');
+  let tzReturn = null;
+  const openTz = from => {
+    tzReturn = from || null;
+    if (!tz.open) tz.showModal();
+    const first = tzForm.hidden ? tzDone.querySelector('a') : $('tName');
+    if (first) first.focus();
+  };
+  $('tzClose').addEventListener('click', () => tz.close());
+  tz.addEventListener('click', e => { if (e.target === tz) tz.close(); });
+  tz.addEventListener('close', () => { if (tzReturn && tzReturn.focus) tzReturn.focus(); });
+  document.addEventListener('click', e => {
+    const a = e.target.closest('a[href="#testzugang"]');
+    if (!a) return;
+    e.preventDefault();
+    openTz(a);
+  });
+  if (location.hash === '#testzugang') openTz();
+
+  tzForm.addEventListener('submit', async e => {
+    e.preventDefault();
+    if (tzSend.disabled || !tzForm.reportValidity()) return;
+    const el = tzForm.elements;
+    if (el.website.value) return;
+    const email = el.email.value.trim(), name = el.name.value.trim(), org = el.org.value.trim(), phoneNo = el.phone.value.trim(), wish = el.interest.value.trim(), page = pageUrl();
+    const interest = 'Testzugang Erkennungs-API Schweiz';
+    const payload = {
+      name, email,
+      message: interest + '\nName: ' + name + '\nE-Mail: ' + email + '\nFirma/Behörde: ' + org + '\nTelefon: ' + (phoneNo || '-') + '\nInteresse: ' + (wish || '-') + '\nBestätigt: keine echten Personendaten, kein Vertrag über die Auftragsbearbeitung, Datenschutzerklärung\nQuelle: ki-anonymisierer.ch\nSeite: ' + page,
+      source: 'ki-anonymisierer-landingpage-request', page, interest,
+      platform: interest + ' - ' + org
+    };
+    tzSend.disabled = true;
+    tzStatus.className = 'status';
+    tzStatus.textContent = 'Wird übermittelt …';
+    try {
+      await post(payload);
+      tzForm.reset();
+      tzForm.hidden = true;
+      tzDone.hidden = false;
+      tzDone.querySelector('a').focus();
+    } catch (err) {
+      tzStatus.className = 'status err';
+      tzStatus.textContent = FAILED;
+    } finally {
+      tzSend.disabled = false;
+    }
+  });
+})();
+</script>
+</body>
+</html>
