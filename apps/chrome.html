@@ -1,0 +1,129 @@
+<!doctype html>
+<html lang="de-CH">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>KI-Anonymisierer für Chrome · KI-Anonymisierer Schweiz</title>
+<meta name="description" content="Kostenlose Chrome-Erweiterung: Texte im Browser anonymisieren, Paste Guard in unterstützten KI-Chats und optionale Anbindung an Ihren eigenen Server.">
+<meta name="robots" content="index,follow,max-image-preview:large">
+<link rel="canonical" href="https://ki-anonymisierer.ch/apps/chrome.html">
+<link rel="alternate" hreflang="de-CH" href="https://ki-anonymisierer.ch/apps/chrome.html">
+<link rel="alternate" hreflang="de-DE" href="https://anonymisierer-tools.de/apps/chrome.html">
+<link rel="icon" href="../img/favicon.png" type="image/png">
+<link rel="apple-touch-icon" href="../img/apple-touch-icon.png">
+<meta property="og:type" content="website">
+<meta property="og:locale" content="de_CH">
+<meta property="og:title" content="KI-Anonymisierer für Chrome · KI-Anonymisierer Schweiz">
+<meta property="og:description" content="Kostenlose Chrome-Erweiterung: Texte im Browser anonymisieren, Paste Guard in unterstützten KI-Chats und optionale Anbindung an Ihren eigenen Server.">
+<meta property="og:url" content="https://ki-anonymisierer.ch/apps/chrome.html">
+<meta property="og:image" content="https://ki-anonymisierer.ch/img/og.jpg">
+<style>
+@font-face{font-family:Archivo;src:url(../fonts/archivo-latin.woff2) format("woff2");font-weight:100 900;font-stretch:62% 125%;font-display:swap}
+*,*::before,*::after{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:#fff;color:#000;font-family:Archivo,"Helvetica Neue",Helvetica,Arial,sans-serif;font-size:1.0625rem;line-height:1.55;-webkit-font-smoothing:antialiased}
+img{max-width:100%;height:auto;display:block}
+a{color:inherit;text-underline-offset:.2em}
+h1,h2,h3,p,ul,ol,figure{margin:0}
+ul,ol{padding:0;list-style:none}
+:focus-visible{outline:3px solid #0a6cff;outline-offset:3px}
+.wrap{max-width:68rem;margin:0 auto;padding-inline:clamp(1.125rem,4vw,3rem)}
+.bar{display:flex;align-items:center;gap:1.5rem;min-height:4.25rem;border-bottom:1px solid #d9d9d9}
+.bar .brand{display:flex;align-items:center;gap:.6rem;font-weight:800;font-stretch:85%;font-size:1.1875rem;text-decoration:none;margin-right:auto}
+.bar .brand img{width:1.9rem;height:1.9rem;border-radius:.4rem}
+.bar a:last-child{font-weight:700}
+h1,h2{font-stretch:68%;font-weight:800;letter-spacing:-.015em;text-wrap:balance}
+h1{font-size:clamp(2.6rem,7vw,5.25rem);line-height:.93}
+h2{font-size:clamp(1.9rem,4.2vw,3rem);line-height:1;margin-bottom:1.5rem}
+h3{font-size:1.1875rem;line-height:1.25;font-weight:700}
+.hero{padding-block:clamp(2rem,6vw,4.5rem)}
+.kicker{font-weight:600;color:#585858;margin-bottom:1rem}
+.lead{font-size:clamp(1.125rem,1.6vw,1.3125rem);line-height:1.45;max-width:40rem;margin-top:1.5rem}
+.chips{display:flex;flex-wrap:wrap;gap:.5rem;margin-top:1.5rem}
+.chips li{border:1px solid #000;padding:.3rem .7rem;font-weight:600;font-size:.9375rem}
+.buy{display:flex;flex-wrap:wrap;align-items:end;gap:1.25rem 2.5rem;margin-top:2rem;border-top:2px solid #000;padding-top:1.25rem}
+.price{font-stretch:68%;font-weight:800;font-size:clamp(2.6rem,7vw,4.25rem);line-height:.95}
+.price small{display:block;font-stretch:100%;font-weight:600;font-size:1rem;line-height:1.4;margin-top:.5rem}
+.btns{display:flex;flex-wrap:wrap;gap:.75rem}
+.btn{display:inline-flex;align-items:center;justify-content:center;min-height:3.25rem;padding:.8rem 1.5rem;border:2px solid #000;background:#000;color:#fff;font-weight:700;text-decoration:none}
+.btn:hover{background:#fff;color:#000}
+.btn.ghost{background:transparent;color:#000}
+.btn.ghost:hover{background:#000;color:#fff}
+.heroshot{margin-top:clamp(2rem,5vw,3.5rem);border:1px solid #d9d9d9}
+.block{padding-block:clamp(2rem,5vw,3.5rem)}
+.steps{display:grid;gap:1.5rem 2.5rem;counter-reset:s}
+.steps li{border-top:2px solid #000;padding-top:.9rem;counter-increment:s}
+.steps li::before{content:counter(s);font-stretch:68%;font-weight:800;font-size:2rem;line-height:1;display:block;margin-bottom:.5rem}
+.steps p,.features p{margin-top:.35rem;color:#585858}
+.keys{display:flex;gap:.3rem;margin-bottom:.6rem}
+kbd{font:inherit;font-weight:700;font-size:.9375rem;border:1px solid #000;padding:.1rem .45rem;min-width:1.9rem;text-align:center}
+.features{display:grid;gap:1.5rem 2.5rem}
+.feature{border-top:1px solid #d9d9d9;padding-top:.9rem}
+.shots{display:grid;gap:1.5rem}
+.shots figure{border:1px solid #d9d9d9}
+.shots figcaption,.heroshot figcaption{padding:.7rem 1rem;font-size:.9375rem;color:#585858;border-top:1px solid #d9d9d9}
+.note{background:#f1f1f1;padding:1.25rem 1.4rem}
+.note p{margin-top:.4rem;max-width:46rem}
+.note ul{margin-top:.6rem;display:grid;gap:.35rem}
+details{border-bottom:1px solid #d9d9d9}
+h2+details{border-top:2px solid #000}
+summary{cursor:pointer;list-style:none;padding:1.05rem 2.5rem 1.05rem 0;font-weight:700;font-size:1.125rem;position:relative}
+summary::-webkit-details-marker{display:none}
+summary::after{content:"+";position:absolute;right:.25rem;top:50%;transform:translateY(-50%);font-size:1.75rem;font-weight:400;line-height:1}
+details[open] summary::after{content:"\2212"}
+details p{padding:0 0 1.15rem;max-width:44rem}
+.cta{background:#000;color:#fff;padding-block:clamp(2.5rem,6vw,4.5rem)}
+.cta .btn{background:#fff;color:#000;border-color:#fff}
+.cta .btn:hover{background:transparent;color:#fff}
+.cta .btn.ghost{background:transparent;color:#fff}
+.cta .btn.ghost:hover{background:#fff;color:#000}
+.family{display:flex;flex-wrap:wrap;gap:.5rem 1.5rem;font-weight:700;padding-block:2rem}
+footer{border-top:2px solid #000;padding-block:1.25rem 3rem;font-size:.9375rem}
+footer .wrap{display:flex;flex-wrap:wrap;gap:.5rem 1.5rem}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}
+.framed .bar,.framed footer{display:none}
+.framed .hero{padding-top:1.5rem}
+@media (min-width:48rem){
+  .steps{grid-template-columns:repeat(4,minmax(0,1fr))}
+  .features{grid-template-columns:repeat(3,minmax(0,1fr))}
+  .shots{grid-template-columns:repeat(2,minmax(0,1fr))}
+}
+</style>
+<script>if (self !== top) document.documentElement.classList.add('framed');</script>
+</head>
+<body>
+<header class="wrap bar"><a class="brand" href="../"><img src="../img/icon.webp" alt="" width="160" height="160">KI-Anonymisierer</a><a href="../">Zur Startseite</a></header>
+<main id="main">
+<section class="hero"><div class="wrap"><p class="kicker">Chrome-Erweiterung · kostenlos</p>
+<h1>Texte anonymisieren, bevor sie im KI-Chat landen.</h1>
+<p class="lead">Die kostenlose Erweiterung ist der schnelle Einstieg: Text einfügen, lokal bereinigen, Ergebnis kopieren. Neu mit Paste Guard, der Text in unterstützten KI-Chats direkt vor dem Einfügen prüft, und mit optionaler Anbindung an KI-Anonymisierer Server.</p>
+<ul class="chips"><li>Kostenlos</li><li>DE / EN</li><li>Paste Guard</li><li>Gemini Nano optional</li></ul>
+<div class="buy"><div class="price">Kostenlos<small>Im Chrome Web Store</small></div><div class="btns"><a class="btn" href="https://chromewebstore.google.com/detail/jaoallgfipnfnibbnjeflecgfmbhefoa" target="_blank" rel="noopener noreferrer">Kostenlos zu Chrome hinzufügen</a></div></div>
+<figure class="heroshot"><img src="../img/chrome.webp" alt="KI-Anonymisierer für Chrome" width="1600" height="798"></figure></div></section>
+<section class="block"><div class="wrap"><h2>Reduziert auf das, was im Browser zählt.</h2><ol class="steps"><li><h3>Text einfügen</h3><p>Aus einer Website, E-Mail, einem Formular oder einem KI-Chat.</p></li><li><h3>Anonymisieren</h3><p>Personen, Adressen, Kontaktdaten, Kennungen und Datumsangaben werden ersetzt.</p></li><li><h3>Ergebnis prüfen</h3><p>Die Kategorien zeigen, was erkannt wurde. Die Endkontrolle bleibt bei Ihnen.</p></li><li><h3>Kopieren</h3><p>Die anonymisierte Fassung zurück in den Browser-Workflow übernehmen.</p></li></ol></div></section>
+<section class="block"><div class="wrap"><h2>Was die Erweiterung kann</h2><div class="features"><div class="feature"><h3>Paste Guard</h3><p>Prüft Text in unterstützten KI-Chats vor dem Einfügen und anonymisiert ihn im vorgesehenen Ablauf.</p></div><div class="feature"><h3>Serveranbindung</h3><p>Kann KI-Anonymisierer Server als Erkennung nutzen, damit Browser-Arbeitsplätze denselben zentralen Dienst verwenden.</p></div><div class="feature"><h3>Regelbasierte Erkennung</h3><p>Namen, Adressen, Kontaktdaten und Kennungen, lokal im Browser.</p></div><div class="feature"><h3>Gemini Nano optional</h3><p>Chromes lokale KI als zweite Erkennungsschicht, wenn Gerät und Browser sie unterstützen.</p></div><div class="feature"><h3>Kategorien sichtbar</h3><p>Erkannte Bereiche bleiben nachvollziehbar statt Blackbox.</p></div><div class="feature"><h3>Hell und dunkel</h3><p>Kompakte Oberfläche für unterschiedliche Browser-Setups.</p></div></div></div></section>
+<section class="block"><div class="wrap"><div class="note"><div><h3>Gut zu wissen</h3><p>Paste Guard wirkt in unterstützten KI-Chats, nicht auf allen Websites. Mit Serveranbindung wird der Text zur Analyse an Ihren eigenen Server übertragen. Die Erweiterung bleibt kostenlos, für einen gemeinsam genutzten Unternehmensserver gelten eigene Lizenzbedingungen.</p></div></div></div></section>
+<section class="block"><div class="wrap"><h2>Häufige Fragen</h2><details><summary>Ist die Erweiterung wirklich kostenlos?</summary><p>Ja, Sie installieren sie kostenlos über den Chrome Web Store.</p></details><details><summary>Ersetzt Chrome die Mac- oder Windows-App?</summary><p>Nein. Chrome ist für Text-Workflows im Browser gedacht. Die Desktop-Apps bieten zusätzlich systemweite Shortcuts, bei Mac auch Bilder und Rückführung.</p></details><details><summary>Was ist Gemini Nano?</summary><p>Chromes lokale KI. Wenn Ihr Gerät sie unterstützt, kann die Erweiterung sie zusätzlich zur regelbasierten Erkennung nutzen. Sie lässt sich in den Einstellungen ein- und ausschalten.</p></details><details><summary>Was ändert die Serveranbindung?</summary><p>Die Erkennung läuft dann auf Ihrem KI-Anonymisierer Server statt nur im Browser. Das lohnt sich, wenn Regeln und eigene Begriffe zentral gepflegt werden sollen.</p></details></div></section>
+<section class="cta"><div class="wrap"><h2>In einer Minute installiert.</h2><div class="btns"><a class="btn" href="https://chromewebstore.google.com/detail/jaoallgfipnfnibbnjeflecgfmbhefoa" target="_blank" rel="noopener noreferrer">Kostenlos zu Chrome hinzufügen</a></div></div></section>
+<nav class="wrap family" aria-label="Weitere Produkte"><a href="mac.html">Mac</a> <a href="ios.html">iPhone und iPad</a> <a href="windows.html">Windows</a> <a href="server.html">Server und Client</a> <a href="excel.html">Excel</a></nav>
+</main>
+<footer><div class="wrap"><span>© 2026 Robert Meyer</span><a href="../impressum.html">Impressum</a><a href="../datenschutz.html">Datenschutz</a><a href="../barrierefreiheit.html">Barrierefreiheit</a><a href="../eula-server.html">EULA Server</a><a href="../eula-mac.html">EULA Mac</a></div></footer>
+<script>
+(() => {
+  document.querySelectorAll('a[target="_blank"]').forEach(a => {
+    const hint = document.createElement('span');
+    hint.className = 'sr';
+    hint.textContent = ' (öffnet in neuem Tab)';
+    a.appendChild(hint);
+  });
+  if (self === top) return;
+  document.addEventListener('click', e => {
+    const a = e.target.closest('a[data-goto]');
+    if (!a) return;
+    e.preventDefault();
+    parent.postMessage({ type: 'kia-goto', hash: a.dataset.goto, topic: a.dataset.topic || '' }, location.origin === 'null' ? '*' : location.origin);
+  });
+})();
+</script>
+</body>
+</html>
