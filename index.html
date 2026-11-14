@@ -2,7 +2,7 @@
 <html lang="de-CH">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>KI-Anonymisierer Schweiz: Daten vor ChatGPT und Co. anonymisieren</title>
 <meta name="description" content="Platzhalter statt Klarnamen, bevor Texte in ChatGPT, Copilot und Co. landen. Lokal oder auf eigenem Server, für Kanzlei, Treuhand, Praxis und Verwaltung.">
 <meta name="robots" content="index,follow,max-image-preview:large">
@@ -69,6 +69,8 @@ h3{font-size:1.25rem;line-height:1.25;font-weight:700}
 .nav a:hover{text-decoration:underline}
 .top .btn{min-height:2.75rem;padding:.45rem 1rem;font-size:1rem}
 
+.island,.island-shade,.rail,.rail-tip{display:none}
+
 .hero{padding-top:clamp(2.5rem,6vw,5.5rem);padding-bottom:var(--gap)}
 .hero-grid{display:grid;gap:2rem}
 .hero-sub{display:grid;gap:1.5rem}
@@ -115,7 +117,15 @@ h3{font-size:1.25rem;line-height:1.25;font-weight:700}
 .net text{font-family:Archivo,Helvetica,Arial,sans-serif}
 .points{display:grid;gap:1.5rem 2.5rem;margin-top:clamp(2.5rem,5vw,4rem)}
 .points li{border-top:2px solid var(--ink);padding-top:.9rem}
-.points p{margin-top:.35rem;color:var(--mute)}
+.points p,.incl p{margin-top:.35rem;color:var(--mute)}
+.points.num{counter-reset:n;margin-top:1.5rem}
+.points.num li{counter-increment:n}
+.points.num li::before{content:counter(n);display:block;font-stretch:70%;font-weight:800;font-size:2.25rem;line-height:1;margin-bottom:.6rem}
+h4{margin:0;font-size:1.125rem;line-height:1.25;font-weight:700}
+.sub{margin-top:clamp(2.5rem,5vw,4rem);font-stretch:80%;font-weight:800;font-size:clamp(1.5rem,3vw,2.25rem);line-height:1.05}
+.sub-s{margin-top:2.25rem}
+.incl{display:grid;gap:1.25rem 2.5rem;margin-top:1.25rem}
+.incl li{border-top:1px solid var(--line);padding-top:.9rem}
 .price{margin-top:clamp(2.5rem,5vw,4rem);display:grid;gap:1.5rem;align-items:end;border-top:2px solid var(--ink);padding-top:1.5rem}
 .price-num{font-stretch:70%;font-weight:800;font-size:clamp(3rem,8vw,6.5rem);line-height:.9;letter-spacing:-.02em}
 .price-num small{display:block;font-stretch:100%;font-weight:600;font-size:1.0625rem;line-height:1.4;letter-spacing:0;margin-top:.75rem}
@@ -125,6 +135,7 @@ h3{font-size:1.25rem;line-height:1.25;font-weight:700}
 .apps{margin-top:clamp(2.5rem,5vw,4rem);border-top:2px solid var(--ink)}
 .app{display:grid;gap:.4rem 2rem;padding:1.4rem 0;border-bottom:1px solid var(--line);align-items:baseline}
 .app h3{font-stretch:80%;font-weight:800;font-size:clamp(1.5rem,3vw,2.25rem);line-height:1.05}
+.app h3 a{text-decoration-thickness:.06em;text-underline-offset:.16em}
 .app p{color:var(--mute);max-width:34rem}
 .app .cost{font-weight:700;white-space:nowrap}
 .app>a{font-weight:700}
@@ -172,6 +183,7 @@ dialog{border:0;padding:0;max-width:min(44rem,calc(100vw - 1.5rem));width:100%;m
 dialog::backdrop{background:rgba(0,0,0,.72)}
 .dlg{padding:clamp(1.25rem,4vw,2.5rem);position:relative}
 .dlg h2{font-size:clamp(1.9rem,5vw,2.75rem);max-width:none;padding-right:3rem}
+.x-label{display:none}
 .dlg .x{position:absolute;right:.75rem;top:.75rem;width:2.75rem;height:2.75rem;border:0;background:transparent;font-size:1.75rem;line-height:1;cursor:pointer}
 .dlg .field input,.dlg .field textarea{background:var(--paper);color:var(--ink);border-color:var(--ink)}
 .dlg .btn:hover{background:var(--paper);color:var(--ink)}
@@ -202,6 +214,7 @@ dialog .status.err{color:#b00020}
   .two{grid-template-columns:minmax(0,5fr) minmax(0,6fr);align-items:start}
   .who li{grid-template-columns:minmax(0,4fr) minmax(0,7fr);align-items:baseline;gap:2rem}
   .points{grid-template-columns:repeat(4,minmax(0,1fr))}
+  .incl{grid-template-columns:repeat(3,minmax(0,1fr))}
   .price{grid-template-columns:minmax(0,1fr) auto}
   .price .acts{margin-top:0;justify-content:flex-end}
   .app{grid-template-columns:minmax(0,3fr) minmax(0,5fr) minmax(0,2fr) minmax(0,2fr)}
@@ -211,13 +224,86 @@ dialog .status.err{color:#b00020}
   .form .row{display:grid;grid-template-columns:1fr 1fr;gap:1.1rem}
 }
 @media (max-width:55.99rem){
+  :root{--spring:cubic-bezier(.3,1.35,.5,1)}
+  html{scroll-padding-top:4.75rem}
   .contact-grid{display:grid;gap:2.5rem}
   .form .row{display:grid;gap:1.1rem}
-  .top .btn{display:none}
+  .top{height:0;border:0;background:transparent;z-index:40}
+  .top-in{display:none}
+  .hero{padding-top:5.75rem}
+  .island{display:block;position:absolute;top:calc(env(safe-area-inset-top,0px) + .6rem);left:50%;translate:-50% 0;width:13.5rem;max-width:calc(100vw - 1.5rem);background:var(--ink);color:var(--paper);border-radius:1.5rem;overflow:hidden;box-shadow:0 .4rem 1.4rem rgba(0,0,0,.3);transition:width .55s var(--spring),border-radius .55s var(--spring);z-index:2}
+  .island.bump{animation:bump .5s var(--spring)}
+  .island-bar{display:flex;align-items:center;width:max-content;height:3rem;padding-left:.5rem}
+  .island.open .island-bar{width:100%}
+  .island-home{display:flex;align-items:center;justify-content:center;width:2.75rem;height:2.75rem;flex:none}
+  .island-home img{width:1.75rem;height:1.75rem;border-radius:.45rem}
+  .island-dots{display:none;gap:.2rem;margin-right:.5rem}
+  .island-dots i{width:.5rem;height:.5rem;border-radius:.12rem;background:var(--c)}
+  .island.act .island-dots{display:flex}
+  .island-text{font-weight:700;font-size:1rem;white-space:nowrap;padding-right:.25rem;transition:opacity .14s}
+  .island.swap .island-text,.island.swap .island-dots{opacity:0}
+  .island-btn{appearance:none;border:0;background:transparent;width:3rem;height:3rem;flex:none;margin-left:auto;position:relative;cursor:pointer}
+  .island-btn i{position:absolute;left:.9rem;right:.9rem;height:2px;background:var(--paper);border-radius:1px;transition:transform .35s var(--spring),top .35s var(--spring)}
+  .island-btn i:nth-of-type(1){top:1.2rem}
+  .island-btn i:nth-of-type(2){top:1.7rem}
+  .island.open .island-btn i:nth-of-type(1){top:1.45rem;transform:rotate(45deg)}
+  .island.open .island-btn i:nth-of-type(2){top:1.45rem;transform:rotate(-45deg)}
+  .island-btn:focus-visible,.island-home:focus-visible,.island-menu a:focus-visible{outline-color:#8cc8ff;outline-offset:-3px}
+  .island-panel{display:grid;grid-template-rows:0fr;transition:grid-template-rows .55s var(--spring)}
+  .island.open .island-panel{grid-template-rows:1fr}
+  .island-menu{min-height:0;overflow:hidden;display:grid}
+  .island-menu a{display:block;padding:.5rem 1.4rem;font-stretch:68%;font-weight:800;font-size:2.1rem;line-height:1.1;text-decoration:none;opacity:0;transform:translateY(.6rem);transition:opacity .25s,transform .45s var(--spring)}
+  .island-menu a:first-child{margin-top:.6rem}
+  .island.open .island-menu a{opacity:1;transform:none}
+  .island.open .island-menu a:nth-child(2){transition-delay:.04s}
+  .island.open .island-menu a:nth-child(3){transition-delay:.08s}
+  .island.open .island-menu a:nth-child(4){transition-delay:.12s}
+  .island.open .island-menu a:nth-child(5){transition-delay:.16s}
+  .island.open .island-menu a:nth-child(6){transition-delay:.2s}
+  .island.open .island-menu a:nth-child(7){transition-delay:.24s}
+  .island-menu a.island-cta{margin:1rem 1rem 1.1rem;padding:.9rem 1rem;background:var(--paper);color:var(--ink);font-stretch:100%;font-weight:700;font-size:1.0625rem;text-align:center;border-radius:1rem}
+  .island-shade{display:block;position:fixed;inset:0;background:rgba(0,0,0,.5);opacity:0;pointer-events:none;transition:opacity .3s;z-index:1}
+  .island-shade.on{opacity:1;pointer-events:auto}
+  .steps{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));width:100%}
+  .step{padding:.45rem .3rem;font-size:.875rem;line-height:1.2}
+  .step b{display:block;margin:0 0 .1rem}
+  .dock{padding-bottom:env(safe-area-inset-bottom,0px)}
+  #frame,#tz{max-width:none;max-height:none;width:100vw;height:100dvh;margin:0}
+  .frame-bar{position:absolute;top:calc(env(safe-area-inset-top,0px) + .6rem);left:50%;translate:-50% 0;z-index:1;height:3rem;max-width:calc(100vw - 1.5rem);padding:0 0 0 .5rem;gap:0;background:var(--ink);color:var(--paper);border:0;border-radius:1.5rem;box-shadow:0 .4rem 1.4rem rgba(0,0,0,.3)}
+  .frame-bar::before,.dlg .x::before{content:"";flex:none;width:1.75rem;height:1.75rem;margin:0 .6rem 0 .5rem;border-radius:.45rem;background:url(img/icon.webp) center/cover}
+  .frame-bar strong{margin-right:0;font-size:1rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .frame-bar a{display:none}
+  .frame-bar button{flex:none;width:3rem;height:3rem;color:var(--paper)}
+  #frame iframe{margin-top:calc(env(safe-area-inset-top,0px) + 4.2rem)}
+  #frame[open] .frame-bar,#tz[open] .x{animation:bump .5s var(--spring)}
+  .dlg{padding-top:.6rem}
+  .dlg .x{position:sticky;top:.6rem;z-index:1;display:flex;align-items:center;width:max-content;height:3rem;margin:0 auto 1.25rem;padding:0 1.1rem 0 .5rem;background:var(--ink);color:var(--paper);border-radius:1.5rem;box-shadow:0 .4rem 1.4rem rgba(0,0,0,.3);font-size:1.6rem}
+  .dlg .x::before{margin-left:0}
+  .x-label{display:inline;font-size:1rem;font-weight:700;margin-right:.9rem}
+  .dlg h2{padding-right:0}
+  .frame-bar button:focus-visible,.dlg .x:focus-visible{outline-color:#8cc8ff;outline-offset:-3px}
 }
+@supports (transition-timing-function:linear(0,1)){
+  @media (max-width:55.99rem){
+    :root{--spring:linear(0,.009,.035 2.1%,.141 4.4%,.723 12.9%,.938 16.7%,1.017,1.077,1.121,1.149 24.3%,1.159,1.163,1.161,1.154 29.9%,1.129 32.8%,1.051 39.6%,1.017 43.1%,.991,.977 51%,.974 53.8%,.975 57.1%,.997 69.8%,1.003 76.9%,1.004 83.8%,1)}
+  }
+}
+@media (min-width:64rem){
+  .rail{display:grid;position:fixed;left:0;top:50%;translate:0 -50%;z-index:15;mix-blend-mode:difference}
+  .rail a{display:flex;align-items:center;height:1.75rem;width:2.5rem;padding-left:.5rem}
+  .rail a::before{content:"";display:block;width:.7rem;height:2px;background:#fff;opacity:.4;transition:width .25s,opacity .25s}
+  .rail a:hover::before,.rail a:focus-visible::before{width:1.25rem;opacity:.8}
+  .rail a[aria-current="true"]::before{width:1.25rem;opacity:1}
+  .rail a:focus-visible{outline-color:#f59300;outline-offset:-2px}
+  .rail-tip{display:block;position:fixed;left:2.6rem;z-index:16;translate:0 -50%;background:var(--ink);color:var(--paper);font-weight:700;font-size:.875rem;line-height:1;padding:.45rem .65rem;white-space:nowrap;box-shadow:0 0 0 1px var(--paper);opacity:0;pointer-events:none;transition:opacity .15s}
+  .rail-tip.on{opacity:1}
+}
+@keyframes bump{0%{scale:1}40%{scale:1.06}100%{scale:1}}
 @media (prefers-reduced-motion:reduce){
   html{scroll-behavior:auto}
   .tok,.tok.ph{transition:none}
+  .island,.island *,.island-shade,.frame-bar,.dlg .x{transition:none!important;animation:none!important}
+  .rail a::before,.rail-tip{transition:none}
 }
 </style>
 </head>
@@ -236,10 +322,41 @@ dialog .status.err{color:#b00020}
     </nav>
     <a class="btn" href="#testzugang">Testzugang anfordern</a>
   </div>
+  <div class="island" id="island">
+    <div class="island-bar">
+      <a class="island-home" href="#top"><img src="img/icon.webp" alt="" width="160" height="160"><span class="sr">Zum Seitenanfang</span></a>
+      <span class="island-dots" aria-hidden="true"><i style="--c:var(--person)"></i><i style="--c:var(--datum)"></i><i style="--c:var(--adresse)"></i><i style="--c:var(--kontakt)"></i><i style="--c:var(--kennung)"></i></span>
+      <span class="island-text" id="islandText" aria-hidden="true">KI-Anonymisierer</span>
+      <button class="island-btn" type="button" id="islandBtn" aria-expanded="false" aria-controls="islandMenu"><span class="sr" id="islandBtnText">Menü öffnen</span><i></i><i></i></button>
+    </div>
+    <div class="island-panel">
+      <nav class="island-menu" id="islandMenu" aria-label="Menü" inert>
+        <a href="#demo">Ausprobieren</a>
+        <a href="#organisation">Für Organisationen</a>
+        <a href="#apps">Apps</a>
+        <a href="#pilot">Pilot</a>
+        <a href="#fragen">Fragen</a>
+        <a href="#kontakt">Kontakt</a>
+        <a class="island-cta" href="#testzugang">Testzugang anfordern</a>
+      </nav>
+    </div>
+  </div>
+  <div class="island-shade" id="islandShade"></div>
 </header>
 
+<nav class="rail" id="rail" aria-label="Seitenabschnitte">
+  <a href="#top" aria-current="true"><span class="sr">Nach oben</span></a>
+  <a href="#geheimnis"><span class="sr">Berufsgeheimnis</span></a>
+  <a href="#organisation"><span class="sr">Für Organisationen</span></a>
+  <a href="#apps"><span class="sr">Apps</span></a>
+  <a href="#pilot"><span class="sr">Pilot mit Schulung</span></a>
+  <a href="#fragen"><span class="sr">Fragen</span></a>
+  <a href="#kontakt"><span class="sr">Kontakt, nach unten</span></a>
+</nav>
+<span class="rail-tip" id="railTip" aria-hidden="true"></span>
+
 <main id="main">
-<section class="hero" id="top">
+<section class="hero" id="top" data-label="KI-Anonymisierer">
   <div class="wrap hero-grid">
     <h1><span>Die KI bekommt den Text.</span><span>Nicht die Namen.</span></h1>
     <div class="hero-sub">
@@ -287,7 +404,7 @@ Reto Aebischer</p>
   </div>
 </section>
 
-<section class="sec sec-wash" id="geheimnis">
+<section class="sec sec-wash" id="geheimnis" data-label="Berufsgeheimnis">
   <div class="wrap">
     <div class="two">
       <h2>Zwischen Kopieren und Einfügen liegt ein Sekundenbruchteil.</h2>
@@ -309,13 +426,12 @@ Reto Aebischer</p>
   </div>
 </section>
 
-<section class="sec" id="organisation">
+<section class="sec" id="organisation" data-label="Für Organisationen">
   <div class="wrap">
     <div class="two">
       <h2>200 Arbeitsplätze brauchen keine 200 KI-Installationen.</h2>
       <div class="body">
         <p class="lead">KI-Anonymisierer Server bündelt die Erkennung in einem Docker-Dienst, den Sie selbst betreiben. Windows-Client, Chrome-Erweiterung und eigene Anwendungen nutzen ihn über eine gemeinsame Schnittstelle.</p>
-        <p>Im Servermodus wird der Text zur Analyse an Ihren Server übertragen. Laut Dokumentation speichert der Server keine Klartexte.</p>
       </div>
     </div>
 
@@ -348,12 +464,13 @@ Reto Aebischer</p>
       </svg>
     </figure>
 
-    <ul class="points">
-      <li><h3>Selbst betrieben</h3><p>Der Server läuft in Ihrem Netz, nicht in einer fremden Cloud.</p></li>
-      <li><h3>Zustimmung am Arbeitsplatz</h3><p>Der Windows-Client fragt vor der Übertragung und vor dem Ersetzen.</p></li>
-      <li><h3>Zentral gepflegt</h3><p>Regeln, Modell und eigene Begriffe an einer Stelle, keine Modelle pro PC.</p></li>
-      <li><h3>Offene Schnittstelle</h3><p>Die API liefert Fundstellen mit Kategorie und Position, auch für eigene Anwendungen.</p></li>
-    </ul>
+    <h3 class="sub">So arbeiten Client und Server zusammen</h3>
+    <ol class="points num">
+      <li><h4>Server betreiben</h4><p>Den Docker-Dienst in Ihrem Netz starten, Erkennungsmodule wählen und eigene Begriffe pflegen.</p></li>
+      <li><h4>Clients verbinden</h4><p>Serveradresse und Zugriffsschlüssel im Windows-Client hinterlegen. Der Schlüssel wird mit Windows-DPAPI verschlüsselt gespeichert.</p></li>
+      <li><h4>Kopieren und zustimmen</h4><p>Der Client fragt standardmässig, bevor ein kopierter Text an den Server geht.</p></li>
+      <li><h4>Bestätigen und ersetzen</h4><p>Der Client zeigt die Zahl der Treffer. Erst Ihre Bestätigung ersetzt sie durch Platzhalter.</p></li>
+    </ol>
 
     <div class="price">
       <p class="price-num">EUR 990.–<small>Server-Lizenz pro Jahr für 25 Nutzer. 30 Tage kostenlos testen. Einzelplatz und Windows-Client sind kostenlos, weitere Staffeln auf Anfrage.</small></p>
@@ -362,7 +479,17 @@ Reto Aebischer</p>
         <a class="btn btn-line" href="#kontakt" data-topic="Offerte für unsere Organisation">Offerte anfragen</a>
       </div>
     </div>
-    <p class="small" style="margin-top:1.25rem">Es gilt die <a href="eula-server.html" data-frame="EULA Server">Server-EULA</a>. Installation und Dokumentation: <a href="https://github.com/rmdroid/anonymisierer-server" target="_blank" rel="noopener noreferrer">Server auf GitHub</a>.</p>
+    <h3 class="sub sub-s">Was Server und Client mitbringen</h3>
+    <ul class="incl">
+      <li><h4>Selbst betrieben</h4><p>Docker-Dienst in Ihrer Infrastruktur, nicht in einer fremden Cloud.</p></li>
+      <li><h4>Regeln plus GLiNER</h4><p>Regelbasierte Erkennung, wahlweise ergänzt durch ein spezialisiertes Modell, ohne Chatbot-Oberfläche.</p></li>
+      <li><h4>Zentral gepflegt</h4><p>Erkennungsmodule und eigene Begriffe in einer Browseroberfläche, inklusive Testtexten.</p></li>
+      <li><h4>Offene API</h4><p>Liefert Fundstellen mit Kategorie und Position, für Windows-Client, Chrome und eigene Integrationen.</p></li>
+      <li><h4>Windows-Client, kostenlos</h4><p>Tray-App ohne eigene KI-Modelle, fragt vor Übertragung und Ersetzen, optional mit Safeguard. Kostenlos im Microsoft Store.</p></li>
+      <li><h4>Keine Modelle pro PC</h4><p>Die Modellinstallation erfolgt einmal auf dem Server statt auf jedem Arbeitsplatz.</p></li>
+    </ul>
+    <p class="small" style="margin-top:2rem">Transparenz zur Datenverarbeitung: Im Servermodus wird der Originaltext zur Analyse an Ihren konfigurierten Server übertragen. Laut Server-Dokumentation werden dort keine Klartexte gespeichert. Betriebsprotokolle, vorgeschaltete Komponenten und eine korrekt eingerichtete HTTPS-Verbindung sind beim eigenen Betrieb zu berücksichtigen. Der Client verarbeitet derzeit Text und bietet keine Rückführung.</p>
+    <p class="small" style="margin-top:.75rem">Es gilt die <a href="eula-server.html" data-frame="EULA Server">Server-EULA</a>. <a href="apps/server.html" data-frame="Server und Client">Server und Client im Detail</a>. Installation und Dokumentation: <a href="https://github.com/rmdroid/anonymisierer-server" target="_blank" rel="noopener noreferrer">Server auf GitHub</a>.</p>
 
     <figure class="shot">
       <img src="img/server-module.webp" width="1600" height="900" loading="lazy" alt="Oberfläche des KI-Anonymisierer Servers: Erkennungsmodule wie Namen, Adressen, IBAN, Aktenzeichen und Medizin lassen sich einzeln ein- und ausschalten.">
@@ -371,7 +498,7 @@ Reto Aebischer</p>
   </div>
 </section>
 
-<section class="sec sec-wash" id="apps">
+<section class="sec sec-wash" id="apps" data-label="Apps">
   <div class="wrap">
     <div class="two">
       <h2>Für den einzelnen Arbeitsplatz.</h2>
@@ -382,7 +509,7 @@ Reto Aebischer</p>
     </div>
     <div class="apps">
       <article class="app">
-        <h3>Mac</h3>
+        <h3><a href="apps/mac.html" data-frame="Mac">Mac</a></h3>
         <p>Menubar-App mit globalem Shortcut. Text und Bilder anonymisieren, Namen nach der Antwort zurückführen.</p>
         <span class="cost">CHF 8.– einmalig</span>
         <a href="https://apps.apple.com/ch/app/ki-anonymisierer/id6760411603?mt=12" target="_blank" rel="noopener noreferrer">Im Mac App Store</a>
@@ -394,25 +521,25 @@ Reto Aebischer</p>
         <a href="https://ki-fachbuecher.lemonsqueezy.com/checkout/buy/f69f289c-85a2-440d-85bd-d532d741baf9" target="_blank" rel="noopener noreferrer">Teamlizenz kaufen</a>
       </article>
       <article class="app">
-        <h3>iPhone und iPad</h3>
+        <h3><a href="apps/ios.html" data-frame="iPhone und iPad">iPhone und iPad</a></h3>
         <p>Texte, Fotos und Screenshots vor dem Teilen bereinigen, auch direkt aus dem Teilen-Menü.</p>
         <span class="cost">CHF 8.– einmalig</span>
         <a href="https://apps.apple.com/ch/app/anonymisierer/id6769850811" target="_blank" rel="noopener noreferrer">Im App Store</a>
       </article>
       <article class="app">
-        <h3>Windows</h3>
+        <h3><a href="apps/windows.html" data-frame="Windows">Windows</a></h3>
         <p>Tray-App mit Strg + Umschalt + A. Regeln, integrierte Namenserkennung und optional lokale KI über Ollama oder LM Studio.</p>
         <span class="cost">CHF 15.– einmalig</span>
         <a href="https://apps.microsoft.com/detail/9N229VW00Z01?hl=de-CH&amp;gl=CH" target="_blank" rel="noopener noreferrer">Im Microsoft Store</a>
       </article>
       <article class="app">
-        <h3>Chrome</h3>
+        <h3><a href="apps/chrome.html" data-frame="Chrome">Chrome</a></h3>
         <p>Paste Guard prüft Text in unterstützten KI-Chats vor dem Einfügen und kann Ihren eigenen Server nutzen.</p>
         <span class="cost">Kostenlos</span>
         <a href="https://chromewebstore.google.com/detail/jaoallgfipnfnibbnjeflecgfmbhefoa" target="_blank" rel="noopener noreferrer">Im Chrome Web Store</a>
       </article>
       <article class="app">
-        <h3>Excel</h3>
+        <h3><a href="apps/excel.html" data-frame="Excel">Excel</a></h3>
         <p>Die Lohnliste darf zur KI, die Namen nicht. Spalten erkennen, pro Spalte entscheiden, mit Protokoll und Rückweg, lokal in Docker.</p>
         <span class="cost">EUR 99.– je Arbeitsplatz</span>
         <a href="#kontakt" data-topic="Excel-Anonymisierer: 7 Tage testen">7 Tage testen</a>
@@ -422,7 +549,7 @@ Reto Aebischer</p>
   </div>
 </section>
 
-<section class="sec" id="pilot">
+<section class="sec" id="pilot" data-label="Pilot mit Schulung">
   <div class="wrap pilot">
     <div>
       <h2>Pilot mit Schulung: 30 Tage, bis 10 Arbeitsplätze.</h2>
@@ -444,7 +571,7 @@ Reto Aebischer</p>
   </div>
 </section>
 
-<section class="sec sec-wash" id="fragen">
+<section class="sec sec-wash" id="fragen" data-label="Fragen">
   <div class="wrap">
     <h2>Ehrliche Antworten.</h2>
     <div class="faq">
@@ -459,7 +586,7 @@ Reto Aebischer</p>
   </div>
 </section>
 
-<section class="sec contact" id="kontakt">
+<section class="sec contact" id="kontakt" data-label="Kontakt">
   <div class="wrap contact-grid">
     <div>
       <h2>Schildern Sie kurz Ihren Einsatz.</h2>
@@ -514,7 +641,7 @@ Reto Aebischer</p>
 
 <dialog id="tz" aria-labelledby="tzTitle">
   <div class="dlg">
-    <button class="x" type="button" id="tzClose" aria-label="Schliessen">×</button>
+    <button class="x" type="button" id="tzClose" aria-label="Schliessen"><span class="x-label" aria-hidden="true">Testzugang</span><span aria-hidden="true">×</span></button>
     <h2 id="tzTitle">Testzugang anfordern</h2>
     <form class="form" id="tzForm" style="margin-top:1.25rem" novalidate>
       <p>Prüfen Sie die Erkennung an eigenen Beispieltexten, ohne Installation, direkt im Browser. Sie erhalten einen persönlichen Zugangsschlüssel für unseren Testserver. Der Zugang ist 30 Tage kostenlos und unverbindlich.</p>
@@ -640,11 +767,81 @@ Reto Aebischer</p>
     return list;
   };
 
+  const island = $('island'), islandBar = island.querySelector('.island-bar'), islandText = $('islandText'), islandBtn = $('islandBtn'), islandMenu = $('islandMenu'), islandShade = $('islandShade');
+  let islandLabel = 'KI-Anonymisierer', islandTimer = 0, islandSwap = 0;
+  const islandFit = () => { if (!island.classList.contains('open')) island.style.width = islandBar.offsetWidth + 'px'; };
+  const islandSet = (label, act) => {
+    clearTimeout(islandSwap);
+    if (islandText.textContent === label && island.classList.contains('act') === !!act) return;
+    island.classList.add('swap');
+    islandSwap = setTimeout(() => {
+      islandText.textContent = label;
+      island.classList.toggle('act', !!act);
+      island.classList.remove('swap');
+      islandFit();
+    }, reduced ? 0 : 140);
+  };
+  const islandNote = label => {
+    clearTimeout(islandTimer);
+    islandSet(label, true);
+    island.classList.remove('bump');
+    void island.offsetWidth;
+    island.classList.add('bump');
+    islandTimer = setTimeout(() => islandSet(islandLabel, false), 2800);
+  };
+  const islandOpen = on => {
+    island.classList.toggle('open', on);
+    islandShade.classList.toggle('on', on);
+    islandBtn.setAttribute('aria-expanded', String(on));
+    $('islandBtnText').textContent = on ? 'Menü schliessen' : 'Menü öffnen';
+    islandMenu.inert = !on;
+    document.documentElement.style.overflow = on ? 'hidden' : '';
+    if (on) island.style.width = 'min(26rem, calc(100vw - 1.5rem))'; else islandFit();
+  };
+  islandBtn.addEventListener('click', () => islandOpen(!island.classList.contains('open')));
+  islandShade.addEventListener('click', () => islandOpen(false));
+  islandMenu.addEventListener('click', e => { if (e.target.closest('a')) islandOpen(false); });
+  island.querySelector('.island-home').addEventListener('click', () => islandOpen(false));
+  document.addEventListener('keydown', e => { if (e.key === 'Escape' && island.classList.contains('open')) { islandOpen(false); islandBtn.focus(); } });
+  addEventListener('resize', () => { if (island.classList.contains('open') && innerWidth >= 896) islandOpen(false); else islandFit(); });
+  const rail = [...document.querySelectorAll('#rail a')];
+  const railTip = $('railTip');
+  rail.forEach(link => {
+    const on = () => {
+      const r = link.getBoundingClientRect();
+      railTip.textContent = link.textContent;
+      railTip.style.top = r.top + r.height / 2 + 'px';
+      railTip.classList.add('on');
+    };
+    const off = () => railTip.classList.remove('on');
+    link.addEventListener('mouseenter', on);
+    link.addEventListener('focus', on);
+    link.addEventListener('mouseleave', off);
+    link.addEventListener('blur', off);
+  });
+  const marks = [...document.querySelectorAll('[data-label]')];
+  let here = '';
+  const locate = () => {
+    const mid = innerHeight * 0.45;
+    let cur = marks[0];
+    marks.forEach(el => { if (el.getBoundingClientRect().top <= mid) cur = el; });
+    if (innerHeight + scrollY >= document.documentElement.scrollHeight - 4) cur = marks[marks.length - 1];
+    if (cur.id === here) return;
+    here = cur.id;
+    islandLabel = cur.dataset.label;
+    rail.forEach(link => link.setAttribute('aria-current', String(link.getAttribute('href') === '#' + here)));
+    if (!island.classList.contains('act')) islandSet(islandLabel, false);
+  };
+  addEventListener('scroll', locate, { passive: true });
+  locate();
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(islandFit);
+  islandFit();
+
   const say = () => {
     const uniq = new Set(hits.map(h => h.p)).size;
     if (!hits.length) count.textContent = custom ? 'Keine Angaben erkannt' : '';
     else if (step === 1) count.textContent = 'Kopiert, noch mit Klarnamen';
-    else if (step === 2) count.textContent = uniq === 1 ? '1 Angabe ersetzt' : uniq + ' Angaben ersetzt';
+    else if (step === 2) { count.textContent = uniq === 1 ? '1 Angabe ersetzt' : uniq + ' Angaben ersetzt'; if (!custom) islandNote(count.textContent); }
     else count.textContent = 'Platzhalter lokal durch die echten Angaben ersetzt';
   };
 
@@ -726,6 +923,24 @@ Reto Aebischer</p>
   $('frameClose').addEventListener('click', () => frame.close());
   frame.addEventListener('click', e => { if (e.target === frame) frame.close(); });
   frame.addEventListener('close', () => { frameView.src = 'about:blank'; if (frameReturn && frameReturn.focus) frameReturn.focus(); });
+  frameView.addEventListener('load', () => {
+    try {
+      const t = frameView.contentDocument.title.split(' · ')[0];
+      if (t) { frameTitle.textContent = t; frameTab.href = frameView.contentWindow.location.href; }
+    } catch (err) {}
+  });
+  addEventListener('message', e => {
+    if (e.origin !== location.origin && location.protocol !== 'file:') return;
+    const d = e.data || {};
+    if (d.type !== 'kia-goto') return;
+    frameReturn = null;
+    if (frame.open) frame.close();
+    if (d.hash === 'testzugang') { openTz(); return; }
+    if (d.hash === 'excel-test') $('topic').value = 'Excel-Anonymisierer: 7 Tage testen';
+    else if (d.topic) $('topic').value = d.topic;
+    const target = document.getElementById(d.hash === 'excel-test' ? 'kontakt' : d.hash) || $('kontakt');
+    target.scrollIntoView();
+  });
 
   document.querySelectorAll('a[target="_blank"]').forEach(a => {
     const hint = document.createElement('span');

@@ -1,4 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url><loc>https://ki-anonymisierer.ch/</loc><lastmod>2026-11-14</lastmod></url>
+  <url><loc>https://ki-anonymisierer.ch/apps/server.html</loc><lastmod>2026-11-14</lastmod></url>
+  <url><loc>https://ki-anonymisierer.ch/apps/mac.html</loc><lastmod>2026-11-14</lastmod></url>
+  <url><loc>https://ki-anonymisierer.ch/apps/ios.html</loc><lastmod>2026-11-14</lastmod></url>
+  <url><loc>https://ki-anonymisierer.ch/apps/windows.html</loc><lastmod>2026-11-14</lastmod></url>
+  <url><loc>https://ki-anonymisierer.ch/apps/chrome.html</loc><lastmod>2026-11-14</lastmod></url>
+  <url><loc>https://ki-anonymisierer.ch/apps/excel.html</loc><lastmod>2026-11-14</lastmod></url>
 </urlset>
