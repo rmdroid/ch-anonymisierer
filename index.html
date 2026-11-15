@@ -8,7 +8,7 @@
 <meta name="robots" content="index,follow,max-image-preview:large">
 <link rel="canonical" href="https://ki-anonymisierer.ch/">
 <link rel="alternate" hreflang="de-CH" href="https://ki-anonymisierer.ch/">
-<link rel="alternate" hreflang="de-DE" href="https://anonymisierer-tools.de/">
+<link rel="alternate" hreflang="de" href="https://anonymisierer-tools.de/">
 <link rel="icon" href="img/favicon.png" type="image/png">
 <link rel="apple-touch-icon" href="img/apple-touch-icon.png">
 <meta property="og:type" content="website">
@@ -306,6 +306,7 @@ dialog .status.err{color:#b00020}
   .rail a::before,.rail-tip{transition:none}
 }
 </style>
+<script src="https://analyse.ki-notch.de/api/script.js" data-site-id="a12f448a02c6" defer></script>
 </head>
 <body>
 <a class="skip" href="#main">Zum Inhalt</a>
@@ -952,6 +953,7 @@ Reto Aebischer</p>
   const topic = $('topic');
   document.querySelectorAll('[data-topic]').forEach(a => a.addEventListener('click', () => { topic.value = a.dataset.topic; }));
 
+  const track = name => { if (window.rybbit && window.rybbit.event) window.rybbit.event(name); };
   const endpoint = 'https://n8n.top-beraternetzwerk.de/webhook/termine';
   const pageUrl = () => /^https?:$/.test(location.protocol) ? location.origin + location.pathname : 'https://ki-anonymisierer.ch/';
   const FAILED = 'Wir haben keine Versandbestätigung erhalten. Ihre Eingaben bleiben erhalten. Bitte versuchen Sie es später erneut oder schreiben Sie an rm@kostenmanager.net.';
@@ -988,6 +990,7 @@ Reto Aebischer</p>
       form.reset();
       formStatus.className = 'status ok';
       formStatus.textContent = 'Vielen Dank. Ihre Anfrage wurde übermittelt.';
+      track('kontakt_submit');
     } catch (err) {
       formStatus.className = 'status err';
       formStatus.textContent = FAILED;
@@ -1000,7 +1003,7 @@ Reto Aebischer</p>
   let tzReturn = null;
   const openTz = from => {
     tzReturn = from || null;
-    if (!tz.open) tz.showModal();
+    if (!tz.open) { tz.showModal(); track('testzugang_open'); }
     const first = tzForm.hidden ? tzDone.querySelector('a') : $('tName');
     if (first) first.focus();
   };
@@ -1037,6 +1040,7 @@ Reto Aebischer</p>
       tzForm.hidden = true;
       tzDone.hidden = false;
       tzDone.querySelector('a').focus();
+      track('testzugang_submit');
     } catch (err) {
       tzStatus.className = 'status err';
       tzStatus.textContent = FAILED;
